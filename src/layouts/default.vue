@@ -1,0 +1,225 @@
+<template>
+    <div>
+        <Navigation v-if="isAuthenticated" />
+        <main class="main_container" :class="{ noStyling: !isAuthenticated }">
+            <Nuxt />
+        </main>
+        <div
+            v-if="isAuthenticated"
+            class="top"
+            :class="{ slideIn: scrollPosition > 50 }"
+        >
+            <a class="top_button" v-scroll-to="'body'">
+                <img
+                    class="top_image"
+                    src="~/assets/images/top.png"
+                    alt="Go to top chevron"
+                />
+            </a>
+        </div>
+        <Footer v-if="isAuthenticated" />
+    </div>
+</template>
+
+<script>
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+
+export default {
+    name: "App",
+    data() {
+        return {
+            scrollPosition: null,
+        };
+    },
+    components: {
+        Navigation,
+        Footer,
+    },
+    computed: {
+        isAuthenticated() {
+            if (this.$route.name === "Walk") {
+                return false;
+            }
+            return true;
+        },
+    },
+    methods: {
+        updateScroll() {
+            this.scrollPosition = window.scrollY;
+        },
+    },
+    mounted() {
+        window.addEventListener("scroll", this.updateScroll);
+    },
+};
+</script>
+
+<style>
+/* Main styling */
+@font-face {
+    font-family: "DK Whale Song";
+    src: local("DK Whale Song"),
+        url(~/assets/fonts/DK_Whale_Song.otf) format("truetype");
+}
+html,
+body {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+.main_container {
+    padding: 40px 100px;
+    background-color: white;
+    height: 100%;
+    margin: 100px 0;
+    z-index: 1;
+}
+.main_container > .checkout {
+    margin-left: -100px;
+}
+input:focus,
+input:active,
+button:focus,
+button:active,
+textarea:focus,
+textarea:active,
+select:focus,
+select:active {
+    outline: none;
+}
+.mb-100 {
+    margin-bottom: 100px !important;
+}
+
+/* Header */
+.header {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 600px;
+}
+.header--title {
+    color: #373737;
+    font-size: 40px;
+    font-weight: bolder;
+    line-height: 45px;
+}
+.header--sub {
+    margin-top: 30px;
+    color: #888888;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+/* Flexcontainers */
+.flex_container {
+    display: flex;
+}
+.flex_container--reversed {
+    flex-direction: row-reverse;
+}
+
+/* Scroll to top button */
+.top {
+    width: 40px;
+    height: auto;
+    cursor: pointer;
+    z-index: 99;
+    position: fixed;
+    right: -50px;
+    bottom: 40px;
+    transition: 0.6s;
+}
+.slideIn {
+    right: 80px;
+}
+.top_button {
+    position: relative;
+    cursor: pointer;
+}
+.top_image {
+    width: 70px;
+    animation: pulse 2s ease-in-out alternate infinite;
+}
+@keyframes pulse {
+    0% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Bolletjes */
+.bolletjes {
+    position: relative;
+}
+.bolletjes--img1 {
+    position: absolute;
+    width: 150px;
+    height: auto;
+    left: -130px;
+}
+.bolletjes--img2 {
+    position: absolute;
+    top: 50px;
+    right: -50px;
+    width: 150px;
+    height: auto;
+}
+.bolletjes--img3 {
+    position: absolute;
+    top: 500px;
+    left: -300px;
+    width: 350px;
+}
+.bolletjes--img4 {
+    position: absolute;
+    top: 1400px;
+    right: -120px;
+    width: 150px;
+}
+
+/* Responsive */
+@media only screen and (max-width: 1000px) {
+    .bolletjes--img2 {
+        right: -160px;
+        top: 100px;
+    }
+}
+@media only screen and (max-width: 900px) {
+    .main_container {
+        padding: 40px 60px;
+    }
+}
+@media screen and (max-width: 800px) {
+    .bolletjes--img1 {
+        top: 90px;
+    }
+    .flex_container {
+        flex-direction: column;
+    }
+    .flex_reversed {
+        flex-direction: column-reverse;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .main_container {
+        padding: 40px 15px;
+    }
+}
+@media only screen and (max-width: 450px) {
+    .top_image {
+        width: 50px !important;
+    }
+    .slideIn {
+        right: 60px !important;
+    }
+}
+</style>
