@@ -164,13 +164,6 @@ export default {
 </script>
 
 <style scoped>
-a.nuxt-link-exact-active {
-    color: #ffb496;
-    box-shadow: 0px 0px 0px 3px #ffb496;
-    transition: box-shadow 0.6s linear;
-    margin: 0.5em;
-}
-
 /* Navigation */
 .topnav {
     overflow: hidden;
@@ -322,6 +315,15 @@ a.nuxt-link-exact-active {
 }
 .smaller_logo {
     width: 60px;
+}
+a.nuxt-link-exact-active {
+    color: #ffb496;
+    box-shadow: 0px 0px 0px 3px #ffb496;
+    transition: box-shadow 0.6s linear;
+    margin: 0.5em;
+}
+a.nuxt-link-exact-active.text_color {
+    box-shadow: 0px 0px 0px 3px #fff;
 }
 .text_color {
     color: white !important;
