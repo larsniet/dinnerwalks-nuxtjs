@@ -16,18 +16,29 @@ Gebruik [git](https://github.com/git/git) om deze applicatie te downloaden.
 git clone https://github.com/larsniet/dinnerwalks.git
 ```
 
-## Gebruik
+## Lokale productie versie met lokale firebase functies
 
 ```bash
 cd ./{userdir}/dinnerwalks/src
 yarn install # Installeerd alle dependencies
-yarn start:firebase # Serve lokaal
+yarn build:firebase # Maakt een productie versie aan
+yarn start:firebase # Serve lokaal, ip: http://localhost:5000/
 ```
 
-### Optioneel voor productie
+## Lokale versie voor het developen
 
 ```bash
-yarn build:firebase # Maakt een productie build aan
+cd ./{userdir}/dinnerwalks/src
+yarn install # Installeerd alle dependencies
+yarn run dev # Start develop server lokaal, ip: http://localhost:3000/
+```
+
+### Optioneel voor deploy naar de liveserver
+
+```bash
+cd ./{userdir}/dinnerwalks/src
+yarn install # Installeerd alle dependencies
+yarn build:firebase # Maakt een productie versie aan
 yarn deploy # Upload de functies en code live naar dinnerwalks
 ```
 

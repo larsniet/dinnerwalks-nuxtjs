@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /walks/*
+Sitemap: https://dinnerwalks.nl/sitemap.xml
+Host: https://dinnerwalks.nl

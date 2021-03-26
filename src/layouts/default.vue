@@ -1,14 +1,10 @@
 <template>
     <div>
-        <Navigation v-if="isAuthenticated" />
-        <main class="main_container" :class="{ noStyling: !isAuthenticated }">
+        <Navigation />
+        <main class="main_container">
             <Nuxt />
         </main>
-        <div
-            v-if="isAuthenticated"
-            class="top"
-            :class="{ slideIn: scrollPosition > 50 }"
-        >
+        <div class="top" :class="{ slideIn: scrollPosition > 50 }">
             <a class="top_button" v-scroll-to="'body'">
                 <img
                     class="top_image"
@@ -17,7 +13,7 @@
                 />
             </a>
         </div>
-        <Footer v-if="isAuthenticated" />
+        <Footer />
     </div>
 </template>
 
@@ -35,14 +31,6 @@ export default {
     components: {
         Navigation,
         Footer,
-    },
-    computed: {
-        isAuthenticated() {
-            if (this.$route.name === "Walk") {
-                return false;
-            }
-            return true;
-        },
     },
     methods: {
         updateScroll() {
@@ -201,6 +189,12 @@ select:active {
 @media screen and (max-width: 800px) {
     .bolletjes--img1 {
         top: 90px;
+    }
+    .bolletjes--img3 {
+        width: 320px;
+    }
+    .bolletjes--img4 {
+        top: 1200px;
     }
     .flex_container {
         flex-direction: column;

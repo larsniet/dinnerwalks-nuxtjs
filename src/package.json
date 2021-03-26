@@ -11,11 +11,11 @@
     "clean:functions": "rm -rf \"../functions/node_modules\" && rm -rf \"../functions/.nuxt\"",
     "clean:static": "rm -rf \"../src/static/sw.js\"",
     "clean": "npm run clean:public && npm run clean:functions && npm run clean:static",
-    "copy:nuxt": "mkdir ../public/_nuxt && cp -r ./.nuxt/dist/* ../public/_nuxt",
+    "copy:nuxt": "mkdir ../public/_nuxt && cp -r ./.nuxt/dist/* ../public/_nuxt && mkdir ../functions/.nuxt && cp -r ./.nuxt/dist ../functions/.nuxt",
     "copy:static": "cp -r ../src/static/* ../public",
     "copy": "npm run copy:nuxt && npm run copy:static",
     "build:firebase": "npm run clean && npm run build && npm run copy && cd ../functions && npm i",
-    "start:firebase": "firebase serve --only functions,hosting",
+    "start:firebase": "cd ../ && firebase serve",
     "deploy": "firebase deploy --only functions,hosting"
   },
   "dependencies": {

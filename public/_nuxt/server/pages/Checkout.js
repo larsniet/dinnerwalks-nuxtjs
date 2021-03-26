@@ -1,51 +1,7 @@
 exports.ids = [1];
 exports.modules = {
 
-/***/ 59:
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(68);
-if(content.__esModule) content = content.default;
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add CSS to SSR context
-var add = __webpack_require__(4).default
-module.exports.__inject__ = function (context) {
-  add("2d63a94b", content, true, context)
-};
-
-/***/ }),
-
-/***/ 67:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Checkout_vue_vue_type_style_index_0_id_5e7f1666_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(59);
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Checkout_vue_vue_type_style_index_0_id_5e7f1666_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Checkout_vue_vue_type_style_index_0_id_5e7f1666_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Checkout_vue_vue_type_style_index_0_id_5e7f1666_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Checkout_vue_vue_type_style_index_0_id_5e7f1666_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-
-
-/***/ }),
-
-/***/ 68:
-/***/ (function(module, exports, __webpack_require__) {
-
-// Imports
-var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(3);
-var ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(false);
-// Module
-___CSS_LOADER_EXPORT___.push([module.i, ".checkout[data-v-5e7f1666]{margin-top:30px;background-color:#fcfcfc;box-shadow:0 4px 49px 6px rgba(0,0,0,.25);text-align:left;padding:100px 90px;margin-right:200px}.checkout--sub[data-v-5e7f1666]{max-width:700px;width:100%}.flex_container--item[data-v-5e7f1666]{flex:1 1 auto}.boekingsgegevens[data-v-5e7f1666]{padding:50px;box-shadow:18px 15px 23px -13px rgba(0,0,0,.1);border-radius:20px;background-color:#fff;margin-top:50px;max-width:570px;width:100%}.boekingsgegevens--title[data-v-5e7f1666]{font-weight:600;color:#000;letter-spacing:.16em;text-transform:uppercase;margin-bottom:20px;font-size:23px;margin-left:10px}.boekingsgegevens_field[data-v-5e7f1666]{display:flex;flex-flow:column-reverse}label[data-v-5e7f1666]{font-size:22px;font-weight:600;margin-bottom:10px;margin-left:10px;letter-spacing:.05em;color:#b7b7b7;z-index:0}input[data-v-5e7f1666],label[data-v-5e7f1666]{transition:all .2s;touch-action:manipulation;background:none}input[data-v-5e7f1666],select[data-v-5e7f1666],textarea[data-v-5e7f1666]{font-family:Avenir,Helvetica,Arial,sans-serif;resize:none;border:1px solid rgba(0,0,0,.185);border-radius:20px;margin-bottom:10px;padding:10px 5px 10px 20px;color:#000;font-size:22px;-webkit-appearance:none;cursor:pointer;z-index:1}input[data-v-5e7f1666]:focus,select[data-v-5e7f1666]:focus,textarea[data-v-5e7f1666]:focus{border:2px solid #ffb496}input:-moz-placeholder-shown+label[data-v-5e7f1666]{cursor:text;max-width:66.66%;white-space:nowrap;text-overflow:ellipsis;transform-origin:left bottom;transform:translate(.5rem,3rem) scale(1.1)}input:-ms-input-placeholder+label[data-v-5e7f1666]{cursor:text;max-width:66.66%;white-space:nowrap;text-overflow:ellipsis;transform-origin:left bottom;transform:translate(.5rem,3rem) scale(1.1)}input:placeholder-shown+label[data-v-5e7f1666]{cursor:text;max-width:66.66%;white-space:nowrap;text-overflow:ellipsis;transform-origin:left bottom;transform:translate(.5rem,3rem) scale(1.1)}[data-v-5e7f1666]::-moz-placeholder{color:rgba(0,0,0,.274)}[data-v-5e7f1666]::placeholder{color:rgba(0,0,0,.274)}[data-v-5e7f1666]:-ms-input-placeholder{color:rgba(0,0,0,.274)}[data-v-5e7f1666]::-ms-input-placeholder{color:rgba(0,0,0,.274)}[data-v-5e7f1666]::-webkit-input-placeholder{opacity:0;-webkit-transition:inherit;transition:inherit}input[data-v-5e7f1666]:focus::-webkit-input-placeholder{opacity:1}input:not(:-moz-placeholder-shown)+label[data-v-5e7f1666]{transform:translate(0) scale(1);cursor:pointer}input:not(:-ms-input-placeholder)+label[data-v-5e7f1666]{transform:translate(0) scale(1);cursor:pointer}input:focus+label[data-v-5e7f1666],input:not(:placeholder-shown)+label[data-v-5e7f1666]{transform:translate(0) scale(1);cursor:pointer}.boekingskosten[data-v-5e7f1666]{padding:50px;background-color:#ffb496;border-radius:20px;box-shadow:18px 15px 23px -13px rgba(0,0,0,.1);color:#fff;height:100%;margin-top:50px;margin-left:30px;width:auto}.boekingskosten--title[data-v-5e7f1666]{font-weight:600;font-size:22px;padding-bottom:10px}.boekingskosten_prijs[data-v-5e7f1666]{padding:10px 0;position:relative}.boekingskosten_prijs--teken[data-v-5e7f1666]{display:inline-block;color:#ffede5;font-weight:700;font-size:20px;top:10px;left:-15px;position:absolute}.boekingskosten_prijs--amount[data-v-5e7f1666]{display:inline-block;font-size:46px;font-weight:700}.boekingskosten_prijs--after[data-v-5e7f1666]{display:inline-block;color:#ffede5;font-weight:700}.boekingskosten--sub[data-v-5e7f1666]{color:hsla(0,0%,100%,.7);padding:10px 0}.boekingskosten_extra[data-v-5e7f1666]{background-color:#ffccb8;color:#fff;margin-top:10px;padding:20px}.checkout_buttons[data-v-5e7f1666]{margin:50px 0;position:relative;width:100%}.checkout_buttons--return[data-v-5e7f1666]{color:#b7b7b7;text-decoration:none;font-weight:500;font-size:20px}.checkout_buttons--betalen[data-v-5e7f1666]{margin:0;position:absolute;top:50%;right:0;transform:translateY(-50%);background-color:#ffb496;padding:20px 30px;border-radius:20px;font-size:20px;font-weight:500;color:#fff;border:none;box-shadow:18px 15px 23px -13px rgba(0,0,0,.1)}", ""]);
-// Exports
-module.exports = ___CSS_LOADER_EXPORT___;
-
-
-/***/ }),
-
-/***/ 99:
+/***/ 114:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -229,6 +185,50 @@ var component = Object(componentNormalizer["a" /* default */])(
 )
 
 /* harmony default export */ var Checkout = __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ 59:
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(68);
+if(content.__esModule) content = content.default;
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add CSS to SSR context
+var add = __webpack_require__(4).default
+module.exports.__inject__ = function (context) {
+  add("2d63a94b", content, true, context)
+};
+
+/***/ }),
+
+/***/ 67:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Checkout_vue_vue_type_style_index_0_id_5e7f1666_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(59);
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Checkout_vue_vue_type_style_index_0_id_5e7f1666_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Checkout_vue_vue_type_style_index_0_id_5e7f1666_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Checkout_vue_vue_type_style_index_0_id_5e7f1666_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_vue_style_loader_index_js_ref_3_oneOf_1_0_node_modules_css_loader_dist_cjs_js_ref_3_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_3_oneOf_1_2_node_modules_nuxt_components_dist_loader_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Checkout_vue_vue_type_style_index_0_id_5e7f1666_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
+
+/***/ }),
+
+/***/ 68:
+/***/ (function(module, exports, __webpack_require__) {
+
+// Imports
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(3);
+var ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(false);
+// Module
+___CSS_LOADER_EXPORT___.push([module.i, ".checkout[data-v-5e7f1666]{margin-top:30px;background-color:#fcfcfc;box-shadow:0 4px 49px 6px rgba(0,0,0,.25);text-align:left;padding:100px 90px;margin-right:200px}.checkout--sub[data-v-5e7f1666]{max-width:700px;width:100%}.flex_container--item[data-v-5e7f1666]{flex:1 1 auto}.boekingsgegevens[data-v-5e7f1666]{padding:50px;box-shadow:18px 15px 23px -13px rgba(0,0,0,.1);border-radius:20px;background-color:#fff;margin-top:50px;max-width:570px;width:100%}.boekingsgegevens--title[data-v-5e7f1666]{font-weight:600;color:#000;letter-spacing:.16em;text-transform:uppercase;margin-bottom:20px;font-size:23px;margin-left:10px}.boekingsgegevens_field[data-v-5e7f1666]{display:flex;flex-flow:column-reverse}label[data-v-5e7f1666]{font-size:22px;font-weight:600;margin-bottom:10px;margin-left:10px;letter-spacing:.05em;color:#b7b7b7;z-index:0}input[data-v-5e7f1666],label[data-v-5e7f1666]{transition:all .2s;touch-action:manipulation;background:none}input[data-v-5e7f1666],select[data-v-5e7f1666],textarea[data-v-5e7f1666]{font-family:Avenir,Helvetica,Arial,sans-serif;resize:none;border:1px solid rgba(0,0,0,.185);border-radius:20px;margin-bottom:10px;padding:10px 5px 10px 20px;color:#000;font-size:22px;-webkit-appearance:none;cursor:pointer;z-index:1}input[data-v-5e7f1666]:focus,select[data-v-5e7f1666]:focus,textarea[data-v-5e7f1666]:focus{border:2px solid #ffb496}input:-moz-placeholder-shown+label[data-v-5e7f1666]{cursor:text;max-width:66.66%;white-space:nowrap;text-overflow:ellipsis;transform-origin:left bottom;transform:translate(.5rem,3rem) scale(1.1)}input:-ms-input-placeholder+label[data-v-5e7f1666]{cursor:text;max-width:66.66%;white-space:nowrap;text-overflow:ellipsis;transform-origin:left bottom;transform:translate(.5rem,3rem) scale(1.1)}input:placeholder-shown+label[data-v-5e7f1666]{cursor:text;max-width:66.66%;white-space:nowrap;text-overflow:ellipsis;transform-origin:left bottom;transform:translate(.5rem,3rem) scale(1.1)}[data-v-5e7f1666]::-moz-placeholder{color:rgba(0,0,0,.274)}[data-v-5e7f1666]::placeholder{color:rgba(0,0,0,.274)}[data-v-5e7f1666]:-ms-input-placeholder{color:rgba(0,0,0,.274)}[data-v-5e7f1666]::-ms-input-placeholder{color:rgba(0,0,0,.274)}[data-v-5e7f1666]::-webkit-input-placeholder{opacity:0;-webkit-transition:inherit;transition:inherit}input[data-v-5e7f1666]:focus::-webkit-input-placeholder{opacity:1}input:not(:-moz-placeholder-shown)+label[data-v-5e7f1666]{transform:translate(0) scale(1);cursor:pointer}input:not(:-ms-input-placeholder)+label[data-v-5e7f1666]{transform:translate(0) scale(1);cursor:pointer}input:focus+label[data-v-5e7f1666],input:not(:placeholder-shown)+label[data-v-5e7f1666]{transform:translate(0) scale(1);cursor:pointer}.boekingskosten[data-v-5e7f1666]{padding:50px;background-color:#ffb496;border-radius:20px;box-shadow:18px 15px 23px -13px rgba(0,0,0,.1);color:#fff;height:100%;margin-top:50px;margin-left:30px;width:auto}.boekingskosten--title[data-v-5e7f1666]{font-weight:600;font-size:22px;padding-bottom:10px}.boekingskosten_prijs[data-v-5e7f1666]{padding:10px 0;position:relative}.boekingskosten_prijs--teken[data-v-5e7f1666]{display:inline-block;color:#ffede5;font-weight:700;font-size:20px;top:10px;left:-15px;position:absolute}.boekingskosten_prijs--amount[data-v-5e7f1666]{display:inline-block;font-size:46px;font-weight:700}.boekingskosten_prijs--after[data-v-5e7f1666]{display:inline-block;color:#ffede5;font-weight:700}.boekingskosten--sub[data-v-5e7f1666]{color:hsla(0,0%,100%,.7);padding:10px 0}.boekingskosten_extra[data-v-5e7f1666]{background-color:#ffccb8;color:#fff;margin-top:10px;padding:20px}.checkout_buttons[data-v-5e7f1666]{margin:50px 0;position:relative;width:100%}.checkout_buttons--return[data-v-5e7f1666]{color:#b7b7b7;text-decoration:none;font-weight:500;font-size:20px}.checkout_buttons--betalen[data-v-5e7f1666]{margin:0;position:absolute;top:50%;right:0;transform:translateY(-50%);background-color:#ffb496;padding:20px 30px;border-radius:20px;font-size:20px;font-weight:500;color:#fff;border:none;box-shadow:18px 15px 23px -13px rgba(0,0,0,.1)}", ""]);
+// Exports
+module.exports = ___CSS_LOADER_EXPORT___;
+
 
 /***/ })
 

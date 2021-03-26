@@ -41,7 +41,11 @@
             </div>
 
             <div class="content">
-                <a class="downloadBtn" :href="{ pdf }" target="_blank"
+                <h3 class="walk--title">in {{ walk.locatie }}</h3>
+                <a
+                    class="downloadBtn"
+                    :href="`/walks/${walk.locatie}/${walk.locatie}.pdf`"
+                    target="_blank"
                     >Download PDF</a
                 >
             </div>
@@ -176,18 +180,19 @@ export default {
     components: {
         Loader,
     },
+    middleware: "authenticated",
+    layout: "walk",
     asyncData() {
         return {
             isLoading: false,
-            pdf: null,
             walk: {
                 locatie: "",
             },
         };
     },
-    computed: {},
     mounted() {
         this.isLoading = true;
+        this.walk.locatie = this.$route.params.walk;
 
         var playerTrack = $("#player-track"),
             albumName = $("#album-name"),
@@ -234,11 +239,11 @@ export default {
             ],
             albumArtworks = ["_1", "_2", "_3", "_4", "_5"],
             trackUrl = [
-                "~/assets/walks/" + this.walk.locatie + "/Deel 1.mp3",
-                "~/assets/walks/" + this.walk.locatie + "/Deel 2.mp3",
-                "~/assets/walks/" + this.walk.locatie + "/Deel 3.mp3",
-                "~/assets/walks/" + this.walk.locatie + "/Deel 4.mp3",
-                "~/assets/walks/" + this.walk.locatie + "/Deel 5.mp3",
+                `${require(`@/assets/walks/${this.walk.locatie}/Deel_1.mp3`)}`,
+                `${require(`@/assets/walks/${this.walk.locatie}/Deel_2.mp3`)}`,
+                `${require(`@/assets/walks/${this.walk.locatie}/Deel_3.mp3`)}`,
+                `${require(`@/assets/walks/${this.walk.locatie}/Deel_4.mp3`)}`,
+                `${require(`@/assets/walks/${this.walk.locatie}/Deel_5.mp3`)}`,
             ],
             playPreviousTrackButton = $("#play-previous"),
             playNextTrackButton = $("#play-next"),
@@ -451,6 +456,7 @@ export default {
 </script>
 
 <style scoped>
+/* Banner */
 .walk {
 }
 .banner {
@@ -504,18 +510,34 @@ export default {
     right: 60px;
 }
 
+/* Content */
+.content {
+    margin-top: 20px;
+}
+.walk--title {
+    color: #ffb496;
+    font-size: 33px;
+    margin-bottom: 100px;
+    font-family: "DK Whale Song";
+}
 .downloadBtn {
     color: white;
-    font-size: 30px;
+    font-size: 20px;
     font-weight: bold;
     background-color: #ffb496;
     padding: 20px 30px;
-    border: 3px solid #ffb496;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     border-radius: 20px;
     transition: 0.6s all ease;
     z-index: 3;
+    text-decoration: none;
+}
+.downloadBtn:hover {
+    background-color: #8d543c;
+    box-shadow: 0px 15px 20px #8d543c;
 }
 
+/* Audio speler */
 #app-cover {
     position: fixed;
     bottom: 20px;
@@ -525,7 +547,6 @@ export default {
     height: 100px;
     margin: -4px auto;
 }
-
 #player {
     position: relative;
     bottom: 0;
@@ -533,7 +554,6 @@ export default {
     height: 100%;
     z-index: 3;
 }
-
 #player-track {
     position: absolute;
     top: 0;
@@ -545,38 +565,31 @@ export default {
     transition: 0.3s ease top;
     z-index: 1;
 }
-
 #player-track.active {
     top: -92px;
 }
-
 #album-name {
     color: #54576f;
     font-size: 17px;
     font-weight: bold;
     text-transform: capitalize;
 }
-
 #track-name {
     color: #acaebd;
     font-size: 13px;
     margin: 2px 0 13px 0;
 }
-
 #track-time {
     height: 12px;
     margin-bottom: 3px;
     overflow: hidden;
 }
-
 #current-time {
     float: left;
 }
-
 #track-length {
     float: right;
 }
-
 #current-time,
 #track-length {
     color: transparent;
@@ -585,25 +598,21 @@ export default {
     border-radius: 10px;
     transition: 0.3s ease all;
 }
-
 #track-time.active #current-time,
 #track-time.active #track-length {
     color: #f86d92;
     background-color: transparent;
 }
-
 #s-area,
 #seek-bar {
     position: relative;
     height: 4px;
     border-radius: 4px;
 }
-
 #s-area {
     background-color: #ffe8ee;
     cursor: pointer;
 }
-
 #ins-time {
     position: absolute;
     top: -29px;
@@ -614,7 +623,6 @@ export default {
     border-radius: 4px;
     display: none;
 }
-
 #s-hover {
     position: absolute;
     top: 0;
@@ -623,12 +631,10 @@ export default {
     opacity: 0.2;
     z-index: 2;
 }
-
 #ins-time,
 #s-hover {
     background-color: #3b3d50;
 }
-
 #seek-bar {
     content: "";
     position: absolute;
@@ -640,7 +646,6 @@ export default {
     transition: 0.2s ease width;
     z-index: 1;
 }
-
 #player-content {
     position: relative;
     height: 100%;
@@ -651,7 +656,6 @@ export default {
     width: 95%;
     margin: 0 auto;
 }
-
 #album-art {
     position: absolute;
     top: -40px;
@@ -664,12 +668,10 @@ export default {
     border-radius: 50%;
     overflow: hidden;
 }
-
 #album-art.active {
     top: -60px;
     box-shadow: 0 0 0 4px #fff7f7, 0 30px 50px -15px #afb7c1;
 }
-
 #album-art:before {
     content: "";
     position: absolute;
@@ -684,7 +686,6 @@ export default {
     box-shadow: inset 0 0 0 2px #fff;
     z-index: 2;
 }
-
 #album-art img {
     display: block;
     position: absolute;
@@ -695,17 +696,14 @@ export default {
     opacity: 0;
     z-index: -1;
 }
-
 #album-art img.active {
     opacity: 1;
     z-index: 1;
 }
-
 #album-art.active img.active {
     z-index: 1;
     animation: rotateAlbumArt 3s linear 0s infinite forwards;
 }
-
 @keyframes rotateAlbumArt {
     0% {
         transform: rotateZ(0);
@@ -714,7 +712,6 @@ export default {
         transform: rotateZ(360deg);
     }
 }
-
 #buffer-box {
     position: absolute;
     top: 50%;
@@ -733,26 +730,21 @@ export default {
     opacity: 0;
     z-index: 2;
 }
-
 #album-art img,
 #buffer-box {
     transition: 0.1s linear all;
 }
-
 #album-art.buffering img {
     opacity: 0.25;
 }
-
 #album-art.buffering img.active {
     opacity: 0.8;
     filter: blur(2px);
     -webkit-filter: blur(2px);
 }
-
 #album-art.buffering #buffer-box {
     opacity: 1;
 }
-
 #player-controls {
     width: 250px;
     height: 100%;
@@ -760,13 +752,11 @@ export default {
     float: right;
     overflow: hidden;
 }
-
 .control {
     width: 33.333%;
     float: left;
     padding: 12px 0;
 }
-
 .button {
     width: 26px;
     height: 26px;
@@ -789,7 +779,6 @@ export default {
         padding: 13px 22px 10px 130px;
     }
 }
-
 .button svg {
     display: block;
     margin-left: auto;
@@ -798,20 +787,16 @@ export default {
     text-align: center;
     line-height: 1;
 }
-
 .button,
 .button svg {
     transition: 0.2s ease all;
 }
-
 .button:hover {
     background-color: #d6d6de;
 }
-
 .button:hover svg {
     color: #fff;
 }
-
 #ytd-url {
     display: block;
     position: fixed;
