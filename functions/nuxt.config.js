@@ -62,6 +62,7 @@ module.exports = {
       auth: true,
       functions: true,
       firestore: true,
+      realtimeDb: true
     },
     onFirebaseHosting: true
   },
@@ -69,16 +70,21 @@ module.exports = {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     extend(config, { isDev, isClient, isServer }) {
-      // ..
+
       config.module.rules.push({
         test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
         loader: 'file-loader'
       })
-
       config.module.rules.push({
-        test: /\.mp3$/,
-        loader: 'file-loader'
+        test: /\.(ogg|mp3|mp4|wav|mpe?g)$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[path][name].[ext]',
+          outputPath: 'static/walks',
+          esModule: false
+        }
       })
+
       // Sets webpack's mode to development if `isDev` is true.
       if (isDev) {
         config.mode = 'development'
@@ -98,5 +104,6 @@ module.exports = {
   server: {
     host: "0.0.0.0"
   },
-  ssrLog: true
+  ssrLog: true,
+
 }
