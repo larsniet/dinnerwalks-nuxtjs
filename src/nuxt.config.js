@@ -56,7 +56,8 @@ module.exports = {
       storageBucket: "dinnerwalks-7fc99.appspot.com",
       messagingSenderId: "544059530833",
       appId: "1:544059530833:web:469927f89ecdb6e2d9e270",
-      measurementId: "G-9PMVBRBWD5"
+      measurementId: "G-9PMVBRBWD5",
+      databaseURL: "https://dinnerwalks.firebaseio.com/"
     },
     services: {
       auth: true,

@@ -7,6 +7,7 @@
 import { firebase } from "@firebase/app"
 import '@firebase/auth'
 import '@firebase/firestore'
+import '@firebase/database'
 import "@firebase/analytics"
 
 // Initialize Firebase
@@ -17,7 +18,8 @@ const firebaseConfig = {
     storageBucket: "dinnerwalks-7fc99.appspot.com",
     messagingSenderId: "544059530833",
     appId: "1:544059530833:web:469927f89ecdb6e2d9e270",
-    measurementId: "G-9PMVBRBWD5"
+    measurementId: "G-9PMVBRBWD5",
+    databaseURL: "https://dinnerwalks.firebaseio.com/"
 }
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig)
@@ -25,7 +27,7 @@ if (!firebase.apps.length) {
 }
 // firebase.firestore().settings({ timestampsInSnapshots: true })
 
-export const db = firebase.firestore()
+export const db = firebase.database()
 export const auth = firebase.auth()
 // export const storage = firebase.storage()
 
