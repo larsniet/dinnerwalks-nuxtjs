@@ -305,7 +305,7 @@ export default {
             this.recaptcha();
 
             const url =
-                "https://us-central1-dinnerwalks-nwh.cloudfunctions.net/sendEmailCF";
+                "https://us-central1-dinnerwalks-7fc99.cloudfunctions.net/sendEmailCF";
             fetch(url, {
                 method: "POST",
                 headers: {

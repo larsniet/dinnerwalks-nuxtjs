@@ -6,6 +6,7 @@ const nodemailer = require('nodemailer');
 
 const nuxtConfig = require("./nuxt.config.js");
 
+
 // Setup nodemailer
 const mailTransport = nodemailer.createTransport({
     host: "smtp.strato.com",

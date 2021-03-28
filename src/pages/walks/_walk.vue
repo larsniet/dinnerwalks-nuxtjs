@@ -231,11 +231,11 @@ export default {
                 this.walk.locatie,
             ],
             trackNames = [
-                "Introductie",
                 "Podcast - 1",
                 "Podcast - 2",
                 "Podcast - 3",
                 "Podcast - 4",
+                "Podcast - 5",
             ],
             albumArtworks = ["_1", "_2", "_3", "_4", "_5"],
             trackUrl = [

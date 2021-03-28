@@ -1,0 +1,25 @@
+{
+  "entry": "server.js",
+  "files": {
+    "pages/Checkout.js": "pages/Checkout.js",
+    "pages/Contact.js": "pages/Contact.js",
+    "pages/Horeca.js": "pages/Horeca.js",
+    "pages/Login.js": "pages/Login.js",
+    "pages/Walks.js": "pages/Walks.js",
+    "pages/errors/NotFound.js": "pages/errors/NotFound.js",
+    "pages/index.js": "pages/index.js",
+    "pages/walks/_walk.js": "pages/walks/_walk.js",
+    "server.js": "server.js"
+  },
+  "maps": {
+    "pages/Checkout.js": "pages/Checkout.js.map",
+    "pages/Contact.js": "pages/Contact.js.map",
+    "pages/Horeca.js": "pages/Horeca.js.map",
+    "pages/Login.js": "pages/Login.js.map",
+    "pages/Walks.js": "pages/Walks.js.map",
+    "pages/errors/NotFound.js": "pages/errors/NotFound.js.map",
+    "pages/index.js": "pages/index.js.map",
+    "pages/walks/_walk.js": "pages/walks/_walk.js.map",
+    "server.js": "server.js.map"
+  }
+}

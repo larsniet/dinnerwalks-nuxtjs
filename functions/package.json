@@ -34,6 +34,7 @@
 		"vue-sweetalert2": "^4.2.1"
 	},
 	"devDependencies": {
+		"@nuxtjs/pwa": "^3.3.5",
 		"eslint": "^7.6.0",
 		"eslint-config-google": "^0.14.0",
 		"firebase-functions-test": "^0.2.0"

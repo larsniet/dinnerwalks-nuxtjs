@@ -3,6 +3,7 @@ module.exports = {
   buildDir: './.nuxt',
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: true,
+  target: 'static',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -37,6 +38,7 @@ module.exports = {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    '@nuxtjs/pwa',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -52,6 +54,7 @@ module.exports = {
     config: {
       apiKey: "AIzaSyDjC4XeY71EC-GKnRjMxdgiUx9gEhBck0Q",
       authDomain: "dinnerwalks-7fc99.firebaseapp.com",
+      databaseURL: "https://dinnerwalks.firebaseio.com/",
       projectId: "dinnerwalks-7fc99",
       storageBucket: "dinnerwalks-7fc99.appspot.com",
       messagingSenderId: "544059530833",
@@ -62,7 +65,7 @@ module.exports = {
       auth: true,
       functions: true,
       firestore: true,
-      realtimeDb: true
+      database: true
     },
     onFirebaseHosting: true
   },
@@ -94,6 +97,7 @@ module.exports = {
         config.externals = {
           '@firebase/app': 'commonjs @firebase/app',
           '@firebase/firestore': 'commonjs @firebase/firestore',
+          '@firebase/database': 'commonjs @firebase/database',
           '@firebase/auth': 'commonjs @firebase/auth',
           '@firebase/functions': 'commonjs @firebase/functions',
           '@firebase/analytics': 'commonjs @firebase/analytics',
