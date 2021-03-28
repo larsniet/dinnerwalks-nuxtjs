@@ -1,20 +1,20 @@
 module.exports = {
   srcDir: '../src',
   buildDir: './.nuxt',
-  // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: true,
   target: 'static',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'dinnerwalks',
+    title: 'Dinnerwalks - Walk local, eat local',
     htmlAttrs: {
       lang: 'nl'
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+      { name: 'keywords', content: 'wandeling, goedkoop, cultuur, horeca, steun, korting' },
+      { hid: 'description', name: 'description', content: 'Elke zaterdag en zondag culinaire wandelingen door de regio om de lokale horeca te steunen in deze moeilijke tijd.' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }

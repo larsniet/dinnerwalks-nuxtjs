@@ -1,6 +1,6 @@
 <template>
     <nav class="navbar" :class="{ change_navbar: scrollPosition > 50 }">
-        <ul class="navbar__list">
+        <div class="navbar__list">
             <div class="navbar__list__container">
                 <h2
                     class="navbar__title"
@@ -77,7 +77,7 @@
                     ></span>
                 </div>
             </div>
-        </ul>
+        </div>
         <ul
             class="topnav"
             id="myTopnav"
@@ -86,30 +86,38 @@
                 backgroundColor: scrollPosition > 50,
             }"
         >
-            <a
-                :class="{ text_color: scrollPosition > 50 }"
-                class="navbar__list--item"
-                v-on:click="goToPage('/')"
-                >Home</a
-            >
-            <a
-                :class="{ text_color: scrollPosition > 50 }"
-                class="navbar__list--item"
-                v-on:click="goToPage('/walks')"
-                >Walks</a
-            >
-            <a
-                :class="{ text_color: scrollPosition > 50 }"
-                class="navbar__list--item"
-                v-on:click="goToPage('/horeca')"
-                >Horeca</a
-            >
-            <a
-                :class="{ text_color: scrollPosition > 50 }"
-                class="navbar__list--item"
-                v-on:click="goToPage('/contact')"
-                >Contact</a
-            >
+            <li>
+                <a
+                    :class="{ text_color: scrollPosition > 50 }"
+                    class="navbar__list--item"
+                    v-on:click="goToPage('/')"
+                    >Home</a
+                >
+            </li>
+            <li>
+                <a
+                    :class="{ text_color: scrollPosition > 50 }"
+                    class="navbar__list--item"
+                    v-on:click="goToPage('/walks')"
+                    >Walks</a
+                >
+            </li>
+            <li>
+                <a
+                    :class="{ text_color: scrollPosition > 50 }"
+                    class="navbar__list--item"
+                    v-on:click="goToPage('/horeca')"
+                    >Horeca</a
+                >
+            </li>
+            <li>
+                <a
+                    :class="{ text_color: scrollPosition > 50 }"
+                    class="navbar__list--item"
+                    v-on:click="goToPage('/contact')"
+                    >Contact</a
+                >
+            </li>
         </ul>
     </nav>
 </template>

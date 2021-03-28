@@ -30,7 +30,7 @@ module.exports = {
   plugins: [
     { src: "~/plugins/vue-scrollto", mode: "client" },
     { src: "~/plugins/vue-recaptcha-v3", mode: "client" },
-    '~/plugins/firebase.js',
+    // '~/plugins/firebase.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -54,7 +54,7 @@ module.exports = {
     config: {
       apiKey: "AIzaSyDjC4XeY71EC-GKnRjMxdgiUx9gEhBck0Q",
       authDomain: "dinnerwalks-7fc99.firebaseapp.com",
-      databaseURL: "https://dinnerwalks.firebaseio.com/",
+      databaseURL: "https://dinnerwalks-7fc99-default-rtdb.europe-west1.firebasedatabase.app",
       projectId: "dinnerwalks-7fc99",
       storageBucket: "dinnerwalks-7fc99.appspot.com",
       messagingSenderId: "544059530833",
