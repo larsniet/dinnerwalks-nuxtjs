@@ -44,8 +44,29 @@ module.exports = {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     'nuxt-sweetalert2',
-    '@nuxtjs/firebase',
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
+
+  axios: {
+    proxy: true,
+    credentials: true
+  },
+  proxy: {
+    '/laravel': {
+      target: 'https://laravel-auth.nuxtjs.app',
+      pathRewrite: { '^/laravel': '/' }
+    }
+  },
+
+  auth: {
+    strategies: {
+      'laravelSanctum': {
+        provider: 'laravel/sanctum',
+        url: '188.166.66.31'
+      },
+    }
+  },
 
   /*
   ** Firebase Configuration
@@ -62,12 +83,8 @@ module.exports = {
       measurementId: "G-9PMVBRBWD5"
     },
     services: {
-      auth: true,
       functions: true,
-      firestore: true,
-      database: true
     },
-    onFirebaseHosting: true
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -91,17 +108,6 @@ module.exports = {
       // Sets webpack's mode to development if `isDev` is true.
       if (isDev) {
         config.mode = 'development'
-      }
-
-      if (isServer) {
-        config.externals = {
-          '@firebase/app': 'commonjs @firebase/app',
-          '@firebase/firestore': 'commonjs @firebase/firestore',
-          '@firebase/database': 'commonjs @firebase/database',
-          '@firebase/auth': 'commonjs @firebase/auth',
-          '@firebase/functions': 'commonjs @firebase/functions',
-          '@firebase/analytics': 'commonjs @firebase/analytics',
-        }
       }
     }
   },

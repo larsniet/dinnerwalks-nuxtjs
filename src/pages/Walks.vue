@@ -66,6 +66,11 @@
 <script>
 export default {
 	name: "walks",
+	async asyncData({ $axios }) {
+		const ip = await $axios.$get('http://icanhazip.com')
+		console.log(ip);
+		return { ip }
+	}
 };
 </script>
 
