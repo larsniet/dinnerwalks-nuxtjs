@@ -270,6 +270,7 @@
 
 <script>
 import Loader from "@/components/Loader";
+import axios from "axios";
 
 export default {
     name: "Contact",
@@ -304,19 +305,12 @@ export default {
             this.sending = true;
             this.recaptcha();
 
-            const url =
-                "https://us-central1-dinnerwalks-7fc99.cloudfunctions.net/sendEmailCF";
-            fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
+            axios
+                .post("http://188.166.66.31/api/contactForm", {
                     naam: this.contactFormData.naam,
                     email: this.contactFormData.email,
                     bericht: this.contactFormData.bericht,
-                }),
-            })
+                })
                 .then(() => {
                     this.$swal.fire({
                         icon: "success",
