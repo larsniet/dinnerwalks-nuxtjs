@@ -168,6 +168,12 @@ export default {
                 text:
                     "Via de mail krijg je alle informatie over je boeking toegestuurd.",
             });
+        } else if (this.$route.query.betaald == "failure") {
+            this.$swal.fire({
+                icon: "error",
+                title: "Betaling mistlukt!",
+                text: "Probeer het nog een keer of neem contact met ons op.",
+            });
         }
     },
 };

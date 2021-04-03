@@ -146,8 +146,6 @@ export default {
 </script>
 
 <style scoped>
-.horeca {
-}
 .locatie {
     width: 100%;
 }

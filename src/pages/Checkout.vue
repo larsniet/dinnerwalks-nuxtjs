@@ -185,27 +185,18 @@ export default {
             loading: false,
             lineItems: [
                 {
-                    price: "1",
+                    price: "price_1IcCUbEK50IisyE6SsNbNrKu",
                     quantity: 1,
                 },
             ],
-            successURL: "http://localhost:3000?betaald=success",
-            cancelURL: "http://localhost:3000",
+            successURL: "https://beta.dinnerwalks.nl?betaald=success",
+            cancelURL: "https://beta.dinnerwalks.nl?betaald=failure",
 
             walks: null,
             chosenWalk: null,
             personenCount: null,
             priceWhole: "0",
             pricePart: "00",
-            timezone: "",
-            bollen: {
-                bol1: null,
-                bol2: null,
-                bol3: null,
-                bol4: null,
-                bol5: null,
-                bol6: null,
-            },
         };
     },
     created() {
