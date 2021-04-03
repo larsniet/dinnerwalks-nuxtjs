@@ -2,49 +2,13 @@ on:
   push:
     branches:
       - master
-      - develop
 
 jobs:
-  app-tests:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        node: [14]
-
+  build:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@master
-
-      - name: Setup node env
-        uses: actions/setup-node@v2.1.2
-        with:
-          node-version: ${{ matrix.node }}
-
-      - name: Install dependencies
-        run: yarn
-
-      - name: Generate
-        run: yarn run generate
-        
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-
-      - name: Setup Deployer
-        uses: atymic/deployer-php-action@master
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
-      - name: Deploy to PRODUCTION Server
-        env:
-          DOT_ENV: ${{ secrets.DOT_ENV_PRODUCTION }}
-        run: dep deploy production --tag=${{ env.GITHUB_REF }} -vvv
-      - name: Activate Maintenance mode 
-        run: php artisan down
+      - uses: actions/checkout@v1
+      - uses: kappa0923/nuxtjs-generate-action@v0.1.0
 
   deploy-staging:
     name: Deploy Project to BETA Server
