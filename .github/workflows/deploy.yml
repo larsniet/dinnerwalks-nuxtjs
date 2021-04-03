@@ -1,0 +1,19 @@
+on: 
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: kappa0923/nuxtjs-generate-action@v0.1.0
+    
+      - name: Setup Deployer
+        uses: atymic/deployer-php-action@master
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
+      - name: Deploy to Beta
+        run: dep deploy beta --tag=${{ env.GITHUB_REF }} -vvv
