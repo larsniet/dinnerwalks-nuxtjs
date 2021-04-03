@@ -5,19 +5,16 @@
                 class="checkoutBolletjes--img1"
                 src="@/assets/images/walklocal_blue.png"
                 alt="Image"
-                :v-bind="bollen.bol1"
             />
             <img
                 class="checkoutBolletjes--img5"
                 src="@/assets/images/walklocal_blue.png"
                 alt="Image"
-                :v-bind="bollen.bol5"
             />
             <img
                 class="checkoutBolletjes--img2"
                 src="@/assets/images/walklocal_yellow.png"
                 alt="Image"
-                :v-bind="bollen.bol2"
             />
         </div>
         <section class="checkout">
@@ -155,19 +152,16 @@
                 class="checkoutBolletjes--img4"
                 src="@/assets/images/walklocal_blue.png"
                 alt="Image"
-                :v-bind="bollen.bol4"
             />
             <img
                 class="checkoutBolletjes--img6"
                 src="@/assets/images/walklocal_yellow.png"
                 alt="Image"
-                :v-bind="bollen.bol6"
             />
             <img
                 class="checkoutBolletjes--img3"
                 src="@/assets/images/walklocal_purple.png"
                 alt="Image"
-                :v-bind="bollen.bol3"
             />
         </div>
     </div>
