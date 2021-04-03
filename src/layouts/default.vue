@@ -13,6 +13,22 @@
                 />
             </a>
         </div>
+        <div class="cookies" v-if="!cookiesAccepted">
+            <div class="cookies_message">
+                <p class="cookies_text">
+                    Wij gebruiken Cookies om een betere gebruikerservaring te
+                    kunnen bieden.
+                    <a :href="`/officieel/cookiebeleid.pdf`" target="_blank"
+                        >Bekijk ons cookiebeleid.</a
+                    >
+                </p>
+            </div>
+            <div class="cookies_button">
+                <button class="cookies_accept" @click="acceptCookies">
+                    Accepteren
+                </button>
+            </div>
+        </div>
         <Footer />
     </div>
 </template>
@@ -26,7 +42,28 @@ export default {
     data() {
         return {
             scrollPosition: null,
+            cookiesAccepted: false,
+            structuredData: {
+                "@context": "http://schema.org",
+                "@type": "Organization",
+                name: "Dinnerwalks",
+                url: "https://dinnerwalks.nl",
+                sameAs: [
+                    "https://www.instagram.com/dinnerwalks/",
+                    "https://www.facebook.com/DINNERWALKS/",
+                ],
+            },
         };
+    },
+    head() {
+        return {
+            script: [
+                { type: "application/ld+json", json: this.structuredData },
+            ],
+        };
+    },
+    async asyncData(context) {
+        // Pre-fetch and return recipe data server-side.
     },
     components: {
         Navigation,
@@ -36,8 +73,15 @@ export default {
         updateScroll() {
             this.scrollPosition = window.scrollY;
         },
+        acceptCookies() {
+            localStorage.setItem("cookiesAccepted", true);
+            this.cookiesAccepted = true;
+        },
     },
     mounted() {
+        if (localStorage.getItem("cookiesAccepted")) {
+            this.cookiesAccepted = true;
+        }
         window.addEventListener("scroll", this.updateScroll);
     },
 };
@@ -174,11 +218,55 @@ select:active {
     width: 150px;
 }
 
+/* Cookies */
+.cookies {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(233, 233, 233);
+    z-index: 9999;
+    display: flex;
+}
+.cookies_message {
+    width: 80%;
+    padding: 20px 50px;
+}
+.cookies_text {
+    padding: 20px 50px;
+}
+.cookies_button {
+    width: 20%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.cookies_accept {
+    background-color: #ffb496;
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-size: 17px;
+    font-weight: 600;
+    color: white;
+    border: 3px solid #ffb496;
+    transition: 0.6s all ease;
+    box-shadow: 18px 15px 23px -13px rgba(0, 0, 0, 0.1);
+}
+.cookies_accept:hover {
+    background-color: transparent !important;
+    color: #ffb496;
+    cursor: pointer;
+}
+
 /* Responsive */
 @media only screen and (max-width: 1000px) {
     .bolletjes--img2 {
         right: -160px;
         top: 100px;
+    }
+    .cookies_accept {
+        justify-content: start;
+        align-items: flex-start;
     }
 }
 @media only screen and (max-width: 900px) {
@@ -202,10 +290,30 @@ select:active {
     .flex_reversed {
         flex-direction: column-reverse;
     }
+    .cookies_message {
+        width: 60%;
+        text-align: left;
+        padding: 0;
+    }
+    .cookies .cookies_button {
+        width: 40%;
+    }
 }
 @media only screen and (max-width: 600px) {
     .main_container {
         padding: 40px 15px;
+    }
+    .cookies {
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+    .cookies_message {
+        text-align: center;
+        width: 95%;
+    }
+    .cookies_button {
+        width: 95%;
+        margin-bottom: 20px;
     }
 }
 @media only screen and (max-width: 450px) {

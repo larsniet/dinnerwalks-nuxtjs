@@ -6,9 +6,11 @@
                     >info@dinnerwalks.nl</a
                 >
             </p>
-            <p class="footer__text">Noordwijkerhout, Netherlands</p>
+            <p class="footer__text">Noordwijkerhout, Nederland</p>
             <p class="footer__text">
-                Algemene Voorwaarden
+                <a :href="`/officieel/Algemene_Voorwaarden.pdf`" target="_blank"
+                    >Algemene Voorwaarden</a
+                >
                 <svg
                     class="w-6 h-6 dashicon"
                     fill="none"
@@ -23,10 +25,12 @@
                         d="M20 12H4"
                     ></path>
                 </svg>
-                Privacybeleid
+                <a :href="`/officieel/privacyverklaring.pdf`" target="_blank">
+                    Privacyverklaring
+                </a>
             </p>
             <p class="footer__text copyright">
-                © Copyright 2021 Dinnerwalks. Alle rechten voorbehouden
+                © Copyright {{ year }} Dinnerwalks. Alle rechten voorbehouden
                 <svg
                     class="w-6 h-6 dashicon"
                     fill="none"
@@ -106,6 +110,11 @@
 <script>
 export default {
     name: "Footer",
+    data() {
+        return {
+            year: new Date().getFullYear(),
+        };
+    },
     methods: {
         openSocial(url) {
             window.open(url);
@@ -132,17 +141,21 @@ export default {
     flex: 1;
     margin-left: 10%;
 }
-.footer__text {
+.footer__text,
+.footer__text a {
     color: #656565;
     font-size: 15px;
     margin-bottom: 5px;
+    text-decoration: none;
+    transition: 0.6s all ease;
 }
 .footer__text.mail {
     text-decoration: none;
     transition: 0.6s all ease;
 }
-.footer__text.mail:hover {
-    color: white;
+.footer__text.mail:hover,
+.footer__text a:hover {
+    color: #ffffff;
 }
 .copyright {
     color: #949494;

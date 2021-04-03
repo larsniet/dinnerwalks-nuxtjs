@@ -31,8 +31,8 @@
                     v-bind:key="walk"
                     class="locatie_wandeling"
                 >
-                    <a
-                        href="https://dinnerwalks.simplybook.it/v2/#book/category/2/count/1/"
+                    <NuxtLink
+                        :to="{ name: 'Checkout', params: { walkID: walk } }"
                     >
                         <img
                             class="locatie--image"
@@ -48,7 +48,7 @@
                         <p class="locatie--sub">
                             {{ walk.beschrijving }}
                         </p>
-                    </a>
+                    </NuxtLink>
                 </div>
             </div>
         </div>

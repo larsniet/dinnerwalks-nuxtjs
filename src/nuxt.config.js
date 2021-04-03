@@ -30,7 +30,7 @@ module.exports = {
   plugins: [
     { src: "~/plugins/vue-scrollto", mode: "client" },
     { src: "~/plugins/vue-recaptcha-v3", mode: "client" },
-    // '~/plugins/firebase.js',
+    { src: "~/plugins/vue-cookie-law", mode: "client" },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -39,6 +39,7 @@ module.exports = {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     '@nuxtjs/pwa',
+    '@nuxtjs/google-analytics'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -48,43 +49,13 @@ module.exports = {
     '@nuxtjs/auth-next'
   ],
 
+  googleAnalytics: {
+    id: 'UA-151162515-2'
+  },
+
   axios: {
     proxy: true,
     credentials: true
-  },
-  proxy: {
-    '/laravel': {
-      target: 'https://laravel-auth.nuxtjs.app',
-      pathRewrite: { '^/laravel': '/' }
-    }
-  },
-
-  auth: {
-    strategies: {
-      'laravelSanctum': {
-        provider: 'laravel/sanctum',
-        url: '188.166.66.31'
-      },
-    }
-  },
-
-  /*
-  ** Firebase Configuration
-  */
-  firebase: {
-    config: {
-      apiKey: "AIzaSyDjC4XeY71EC-GKnRjMxdgiUx9gEhBck0Q",
-      authDomain: "dinnerwalks-7fc99.firebaseapp.com",
-      databaseURL: "https://dinnerwalks-7fc99-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId: "dinnerwalks-7fc99",
-      storageBucket: "dinnerwalks-7fc99.appspot.com",
-      messagingSenderId: "544059530833",
-      appId: "1:544059530833:web:469927f89ecdb6e2d9e270",
-      measurementId: "G-9PMVBRBWD5"
-    },
-    services: {
-      functions: true,
-    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

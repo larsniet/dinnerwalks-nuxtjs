@@ -1,10 +1,10 @@
 <template>
-    <nav class="navbar" :class="{ change_navbar: scrollPosition > 50 }">
+    <nav class="navbar" :class="{ change_navbar: scrollPosition > 10 }">
         <div class="navbar__list">
             <div class="navbar__list__container">
                 <h2
                     class="navbar__title"
-                    :class="{ title_color: scrollPosition > 50 }"
+                    :class="{ title_color: scrollPosition > 10 }"
                 >
                     Dinnerwalks
                 </h2>
@@ -13,31 +13,31 @@
                     :src="logoSrc"
                     @click="goToHome()"
                     alt="Dinnerwalks Logo"
-                    :class="{ smaller_logo: scrollPosition > 50 }"
+                    :class="{ smaller_logo: scrollPosition > 10 }"
                 />
             </div>
 
             <div class="navbar__list__container navbar__links">
                 <NuxtLink
-                    :class="{ text_color: scrollPosition > 50 }"
+                    :class="{ text_color: scrollPosition > 10 }"
                     class="navbar__list--item"
                     to="/"
                     >Home</NuxtLink
                 >
                 <NuxtLink
-                    :class="{ text_color: scrollPosition > 50 }"
+                    :class="{ text_color: scrollPosition > 10 }"
                     class="navbar__list--item"
                     to="/walks"
                     >Walks</NuxtLink
                 >
                 <NuxtLink
-                    :class="{ text_color: scrollPosition > 50 }"
+                    :class="{ text_color: scrollPosition > 10 }"
                     class="navbar__list--item"
                     to="/horeca"
                     >Horeca</NuxtLink
                 >
                 <NuxtLink
-                    :class="{ text_color: scrollPosition > 50 }"
+                    :class="{ text_color: scrollPosition > 10 }"
                     class="navbar__list--item"
                     to="/contact"
                     >Contact</NuxtLink
@@ -49,14 +49,14 @@
                     v-on:click.prevent="goToLogin()"
                     class="cta"
                 >
-                    <span :class="{ text_color: scrollPosition > 50 }"
+                    <span :class="{ text_color: scrollPosition > 10 }"
                         >Mijn walks</span
                     >
                     <svg
                         width="13px"
                         height="10px"
                         viewBox="0 0 13 10"
-                        :class="{ stroke_color: scrollPosition > 50 }"
+                        :class="{ stroke_color: scrollPosition > 10 }"
                     >
                         <path d="M1,5 L11,5"></path>
                         <polyline points="8 1 12 5 8 9"></polyline>
@@ -67,13 +67,13 @@
             <div class="navbar__list__container hamburger">
                 <div id="hamburger-icon" v-on:click="toggleMobileMenu()">
                     <span
-                        :class="{ white_hamburger: scrollPosition > 50 }"
+                        :class="{ white_hamburger: scrollPosition > 10 }"
                     ></span>
                     <span
-                        :class="{ white_hamburger: scrollPosition > 50 }"
+                        :class="{ white_hamburger: scrollPosition > 10 }"
                     ></span>
                     <span
-                        :class="{ white_hamburger: scrollPosition > 50 }"
+                        :class="{ white_hamburger: scrollPosition > 10 }"
                     ></span>
                 </div>
             </div>
@@ -82,13 +82,13 @@
             class="topnav"
             id="myTopnav"
             :class="{
-                text_color: scrollPosition > 50,
-                backgroundColor: scrollPosition > 50,
+                text_color: scrollPosition > 10,
+                backgroundColor: scrollPosition > 10,
             }"
         >
             <li>
                 <a
-                    :class="{ text_color: scrollPosition > 50 }"
+                    :class="{ text_color: scrollPosition > 10 }"
                     class="navbar__list--item"
                     v-on:click="goToPage('/')"
                     >Home</a
@@ -96,7 +96,7 @@
             </li>
             <li>
                 <a
-                    :class="{ text_color: scrollPosition > 50 }"
+                    :class="{ text_color: scrollPosition > 10 }"
                     class="navbar__list--item"
                     v-on:click="goToPage('/walks')"
                     >Walks</a
@@ -104,7 +104,7 @@
             </li>
             <li>
                 <a
-                    :class="{ text_color: scrollPosition > 50 }"
+                    :class="{ text_color: scrollPosition > 10 }"
                     class="navbar__list--item"
                     v-on:click="goToPage('/horeca')"
                     >Horeca</a
@@ -112,7 +112,7 @@
             </li>
             <li>
                 <a
-                    :class="{ text_color: scrollPosition > 50 }"
+                    :class="{ text_color: scrollPosition > 10 }"
                     class="navbar__list--item"
                     v-on:click="goToPage('/contact')"
                     >Contact</a
@@ -132,7 +132,7 @@ export default {
     },
     computed: {
         logoSrc: function () {
-            if (this.scrollPosition > 50) {
+            if (this.scrollPosition > 10) {
                 return require("@/assets/images/logo_white.png");
             } else {
                 return require("@/assets/images/logo_transparent.png");
@@ -211,9 +211,16 @@ export default {
     margin: 0;
 }
 .navbar__list {
-    list-style-type: none;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    justify-content: space-evenly;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
     align-items: center;
     height: 50px;
 }
@@ -230,6 +237,11 @@ export default {
     display: inline;
     z-index: 0;
     flex: 1;
+}
+.navbar__links {
+    width: 100%;
+    min-width: 500px;
+    list-style: none;
 }
 .navbar__list--item {
     font-size: 20px;
@@ -327,7 +339,7 @@ export default {
 a.nuxt-link-exact-active {
     color: #ffb496;
     box-shadow: 0px 0px 0px 3px #ffb496;
-    transition: box-shadow 0.6s linear;
+    transition: box-shadow 0.6s all ease;
     margin: 0.5em;
 }
 a.nuxt-link-exact-active.text_color {
