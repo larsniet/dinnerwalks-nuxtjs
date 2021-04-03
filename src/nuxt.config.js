@@ -30,7 +30,8 @@ module.exports = {
   plugins: [
     { src: "~/plugins/vue-scrollto", mode: "client" },
     { src: "~/plugins/vue-recaptcha-v3", mode: "client" },
-    { src: "~/plugins/vue-cookie-law", mode: "client" },
+    { src: '~/plugins/vue-stripe.js', ssr: false },
+    "~/plugins/vue-sweetalert2",
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -39,14 +40,17 @@ module.exports = {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     '@nuxtjs/pwa',
-    '@nuxtjs/google-analytics'
+    '@nuxtjs/google-analytics',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    'nuxt-sweetalert2',
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    ['nuxt-stripe-module', {
+      publishableKey: 'pk_test_TYooMQauvdEDq54NiTphI7jx',
+      locale: 'nl'
+    }],
   ],
 
   googleAnalytics: {
@@ -60,6 +64,9 @@ module.exports = {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    transpile: ["vue-sweetalert2", "@vue-stripe/vue-stripe"],
+
+
     extend(config, { isDev, isClient, isServer }) {
 
       config.module.rules.push({

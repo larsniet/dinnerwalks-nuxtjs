@@ -28,11 +28,11 @@
             <div class="flex_container">
                 <div
                     v-for="walk in walks"
-                    v-bind:key="walk"
+                    v-bind:key="walk.id"
                     class="locatie_wandeling"
                 >
                     <NuxtLink
-                        :to="{ name: 'Checkout', params: { walkID: walk } }"
+                        :to="{ name: 'Checkout', params: { walk: walk } }"
                     >
                         <img
                             class="locatie--image"
@@ -70,9 +70,11 @@ export default {
     },
     methods: {
         getWalks() {
-            axios.get("http://188.166.66.31/api/walks").then((response) => {
-                this.walks = response.data;
-            });
+            axios
+                .get("https://admin.dinnerwalks.nl/api/walks")
+                .then((response) => {
+                    this.walks = response.data;
+                });
         },
     },
 };

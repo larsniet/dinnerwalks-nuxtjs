@@ -37,11 +37,21 @@
                             name="locatie"
                             id="locatie"
                             v-model="chosenWalk"
-                            style="text-transform: capitalize"
                         >
-                            <option selected>Kies een locatie</option>
-                            <option v-for="walk in walks" :key="walk.id">
-                                {{ walk.locatie }}
+                            <option selected disabled value="null">
+                                Kies een locatie
+                            </option>
+                            <option
+                                v-bind:value="walk.id"
+                                v-for="walk in walks"
+                                :key="walk.id"
+                            >
+                                {{
+                                    walk.locatie.replace(
+                                        /^./,
+                                        walk.locatie[0].toUpperCase()
+                                    )
+                                }}
                             </option>
                         </select>
                         <label for="locatie">Locatie</label>
@@ -124,7 +134,20 @@
                     class="checkout_buttons--return"
                     >Terug naar walks</a
                 >
-                <button class="checkout_buttons--betalen">Naar betalen</button>
+                <client-only>
+                    <stripe-checkout
+                        ref="checkoutRef"
+                        mode="payment"
+                        :pk="publishableKey"
+                        :line-items="lineItems"
+                        :success-url="successURL"
+                        :cancel-url="cancelURL"
+                        @loading="(v) => (loading = v)"
+                    />
+                    <button @click="checkout" class="checkout_buttons--betalen">
+                        Naar betalen
+                    </button>
+                </client-only>
             </div>
         </section>
         <div class="checkoutBolletjesBottom">
@@ -156,7 +179,19 @@ import axios from "axios";
 export default {
     name: "Checkout",
     data() {
+        this.publishableKey =
+            "pk_live_51ISUAIEK50IisyE6aB8Xyo932L4LKBtRfK9dORaew9D5am9oj6tDimk1po5x9NalSRW9ULinapQ8tQNWOo6KzX1700rhYpkWxC";
         return {
+            loading: false,
+            lineItems: [
+                {
+                    price: "1",
+                    quantity: 1,
+                },
+            ],
+            successURL: "http://localhost:3000?betaald=success",
+            cancelURL: "http://localhost:3000",
+
             walks: null,
             chosenWalk: null,
             personenCount: null,
@@ -175,23 +210,26 @@ export default {
     },
     created() {
         this.getWalks();
-        this.chosenWalk = this.$route.params.walkID;
+        if (this.$route.params.walk) {
+            this.chosenWalk = this.$route.params.walk.id;
+        }
     },
     methods: {
+        checkout() {
+            this.$refs.checkoutRef.redirectToCheckout();
+        },
         goToWalks() {
             this.$router.push("/walks");
         },
         getWalks() {
-            axios.get("http://188.166.66.31/api/walks").then((response) => {
-                this.walks = response.data;
-            });
+            axios
+                .get("https://admin.dinnerwalks.nl/api/walks")
+                .then((response) => {
+                    this.walks = response.data;
+                });
         },
-        // draaiLogo(bolID) {
-        //     this.bollen.bol1.style.display = "none";
-        // },
     },
     computed: {
-        aantalPers(walk) {},
         getPrice: function () {
             if (this.chosenWalk) {
                 if (this.personenCount) {
@@ -217,14 +255,6 @@ export default {
                 }
             }
             return this.priceWhole;
-        },
-        getPricePart: function () {
-            // if (this.peopleCount == 1) {
-            //     return "50";
-            // } else if (this.peopleCount == 2) {
-            //     return "00";
-            // }
-            // return "00";
         },
     },
 };
@@ -357,11 +387,15 @@ option {
     -webkit-appearance: none;
     cursor: pointer;
     z-index: 1;
+    background: none;
 }
 input:focus,
 textarea:focus,
 select:focus {
     border: 2px solid #ffb496;
+}
+select option:not(:first-child) {
+    text-transform: capitalize !important;
 }
 input:placeholder-shown + label {
     cursor: text;

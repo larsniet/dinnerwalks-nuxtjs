@@ -161,14 +161,14 @@ export default {
         },
     },
     created() {
-        // if (this.$route.query.betaald == "success") {
-        //   this.$swal.fire({
-        //     icon: "success",
-        //     title: "Boeking voltooid!",
-        //     text:
-        //       "Via de mail krijg je alle informatie over je boeking toegestuurd."
-        //   });
-        // }
+        if (this.$route.query.betaald == "success") {
+            this.$swal.fire({
+                icon: "success",
+                title: "Boeking voltooid!",
+                text:
+                    "Via de mail krijg je alle informatie over je boeking toegestuurd.",
+            });
+        }
     },
 };
 </script>

@@ -306,7 +306,7 @@ export default {
             this.recaptcha();
 
             axios
-                .post("http://188.166.66.31/api/contactForm", {
+                .post("https://admin.dinnerwalks.nl/api/contactForm", {
                     naam: this.contactFormData.naam,
                     email: this.contactFormData.email,
                     bericht: this.contactFormData.bericht,

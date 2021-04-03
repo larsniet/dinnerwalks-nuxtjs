@@ -114,7 +114,7 @@ export default {
         return {
             horecas: [],
             walks: null,
-            apiURL: "http://188.166.66.31/",
+            apiURL: "https://admin.dinnerwalks.nl/",
         };
     },
     created() {
@@ -128,14 +128,18 @@ export default {
             });
         },
         getWalks() {
-            axios.get("http://188.166.66.31/api/walks").then((response) => {
-                this.walks = response.data;
-            });
+            axios
+                .get("https://admin.dinnerwalks.nl/api/walks")
+                .then((response) => {
+                    this.walks = response.data;
+                });
         },
         getHorecas() {
-            axios.get("http://188.166.66.31/api/horeca").then((response) => {
-                this.horecas = response.data;
-            });
+            axios
+                .get("https://admin.dinnerwalks.nl/api/horeca")
+                .then((response) => {
+                    this.horecas = response.data;
+                });
         },
     },
 };
