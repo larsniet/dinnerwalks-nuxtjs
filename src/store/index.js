@@ -1,9 +1,14 @@
 export const state = () => ({
-    counter: 0
+    receivedtoken: null
 })
 
 export const mutations = {
-    increment(state) {
-        state.counter++
+
+    setToken(state, { token }) {
+        state.receivedtoken = token;
+    },
+
+    removeToken(state) {
+        state.receivedtoken = null;
     }
 }

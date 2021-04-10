@@ -42,7 +42,7 @@
                     <a :href="horeca.website" target="_blank">
                         <img
                             class="locatie_gelegenheid--image"
-                            :src="apiURL + horeca.logo"
+                            :src="'https://admin.dinnerwalks.nl/' + horeca.logo"
                             alt="Horeca bedrijf"
                         />
                         <h3 class="locatie_gelegenheid--title">
@@ -110,11 +110,21 @@ import axios from "axios";
 
 export default {
     name: "Horeca",
+    head: {
+        title: "Horeca",
+        meta: [
+            {
+                hid: "description",
+                name: "description",
+                content:
+                    "Kijk hier om kennis te maken met alle deelnemende horecagelegenheden.",
+            },
+        ],
+    },
     data() {
         return {
             horecas: [],
             walks: null,
-            apiURL: "https://admin.dinnerwalks.nl/",
         };
     },
     created() {
@@ -129,14 +139,14 @@ export default {
         },
         getWalks() {
             axios
-                .get("https://admin.dinnerwalks.nl/api/walks")
+                .get(process.env.LARAVEL_API_BASE_URL + "api/walks")
                 .then((response) => {
                     this.walks = response.data;
                 });
         },
         getHorecas() {
             axios
-                .get("https://admin.dinnerwalks.nl/api/horeca")
+                .get(process.env.LARAVEL_API_BASE_URL + "api/horeca")
                 .then((response) => {
                     this.horecas = response.data;
                 });
@@ -157,13 +167,15 @@ export default {
 }
 .flex_container {
     flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
 }
 .locatie_gelegenheid {
     flex-grow: 1;
     background-color: #fff2e0;
     padding: 50px;
     box-shadow: 0 10px 20px rgb(0 0 0 / 10%);
-    margin: 40px;
+    margin: 40px 25px;
     max-width: 230px;
     width: 100%;
     transition: 0.6s all ease;

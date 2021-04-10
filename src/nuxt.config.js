@@ -31,6 +31,7 @@ module.exports = {
     { src: "~/plugins/vue-scrollto", mode: "client" },
     { src: "~/plugins/vue-recaptcha-v3", mode: "client" },
     { src: '~/plugins/vue-stripe.js', ssr: false },
+    { src: '~/plugins/v-calendar.js', ssr: false },
     "~/plugins/vue-sweetalert2",
   ],
 
@@ -41,6 +42,7 @@ module.exports = {
   buildModules: [
     '@nuxtjs/pwa',
     '@nuxtjs/google-analytics',
+    '@nuxtjs/dotenv'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -48,10 +50,14 @@ module.exports = {
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
     ['nuxt-stripe-module', {
-      publishableKey: 'pk_test_TYooMQauvdEDq54NiTphI7jx',
+      publishableKey: 'pk_test_51ISUAIEK50IisyE6fKMFNgk3a2QxEn5HmoZSGfmluLG9zZaOmRGUdNSv1nN6YRMkBGFaVhXKRfPRonNtRDhY0Mw300JXpKRXkM',
       locale: 'nl'
     }],
   ],
+
+  router: {
+    middleware: ['token']
+  },
 
   googleAnalytics: {
     id: 'UA-151162515-2'
@@ -62,12 +68,25 @@ module.exports = {
     credentials: true
   },
 
+  auth: {
+    strategies: {
+      laravelSanctum: {
+        provider: 'laravel/sanctum',
+        url: 'https://admin.dinnerwalks.nl/',
+      },
+    },
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ["vue-sweetalert2", "@vue-stripe/vue-stripe"],
 
 
     extend(config, { isDev, isClient, isServer }) {
+
+      config.node = {
+        fs: 'empty'
+      }
 
       config.module.rules.push({
         test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
