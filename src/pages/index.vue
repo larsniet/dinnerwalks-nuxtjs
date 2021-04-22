@@ -111,7 +111,7 @@
           </h2>
           <p class="content--sub">
             Elke zaterdag en zondag culinaire wandelingen door de regio om de
-            lokale horeca te steunen in deze moeilijke tijd. Voor slechts 3 euro
+            lokale horeca te steunen in deze moeilijke tijd. Voor slechts €3.50
             wandel je al mee, ontvang je jouw unieke kortingscode en krijg je
             ook nog eens toegang tot onze speciale podcasts. We nemen je in de
             podcast aan de hand en leiden je door het dorp en zijn historie.
@@ -177,8 +177,8 @@ export default {
     } else if (this.$route.query.betaald == "failure") {
       this.$swal.fire({
         icon: "error",
-        title: "Betaling mistlukt!",
-        text: "Probeer het nog een keer of neem contact met ons op."
+        title: "Betaling afgebroken!",
+        text: "Probeer het nogmaals of neem contact met ons op."
       });
     }
   }

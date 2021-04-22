@@ -1,3 +1,15 @@
 {
-    "vue3snippets.enable-compile-vue-file-on-did-save-code": false
+	"indentRainbow.excludedLanguages": ["plaintext"],
+	"indentRainbow.updateDelay": 100 ,
+	"telemetry.enableCrashReporter": false,
+	"telemetry.enableTelemetry": false,
+	"editor.minimap.enabled": true,
+	"editor.detectIndentation": false,
+	"editor.tabSize": 2,
+	"editor.scrollBeyondLastLine": false,
+	"editor.wrappingIndent": "none",
+	"editor.renderWhitespace": "all",
+	"editor.quickSuggestionsDelay": 500,
+	"editor.autoClosingBrackets": "always",
+	"workbench.statusBar.visible": true,
 }

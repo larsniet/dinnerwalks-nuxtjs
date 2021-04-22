@@ -31,15 +31,15 @@
           v-bind:key="walk.id"
           class="locatie_wandeling"
         >
-          <NuxtLink :to="{ name: 'Checkout', params: { walk: walk } }">
+          <NuxtLink :to="{ name: 'Checkout', params: { chosenWalk: walk } }">
             <img
               class="locatie--image"
-              src="@/assets/images/locaties/noordwijk.png"
+              :src="'https://admin.dinnerwalks.nl/' + walk.preview"
               alt="Noordwijk foto"
             />
             <h2 class="locatie--title">
               <span style="text-transform: capitalize">{{ walk.locatie }}</span>
-              walk - €3,50
+              Walk
             </h2>
             <p class="locatie--sub">
               {{ walk.beschrijving }}
@@ -78,11 +78,7 @@ export default {
   methods: {
     getWalks() {
       axios
-        .get(process.env.LARAVEL_API_BASE_URL + "api/walks", {
-          //   headers: {
-          //     Authorization: `Basic ${token}`
-          //   }
-        })
+        .get(process.env.LARAVEL_API_BASE_URL + "api/walks")
         .then(response => {
           this.walks = response.data;
         });

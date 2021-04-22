@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="docReady">
     <div class="checkoutBolletjes">
       <img
         class="checkoutBolletjes--img1"
@@ -29,18 +29,20 @@
           <h3 class="boekingsgegevens--title">Boekingsgegevens</h3>
           <div class="boekingsgegevens_field">
             <p class="form_error" v-if="errors.chosenWalk">
-              {{ errors.chosenWalk }}
+              Locatie niet ingevuld!
             </p>
             <select
-              name="locatie"
-              id="locatie"
-              v-model="formData.chosenWalk"
+              name="chosenWalk"
+              id="chosenWalk"
               @change="resetErrors"
+              v-model="formData.chosenWalk"
               v-bind:class="{
                 'form_error--border': errors.chosenWalk
               }"
             >
-              <option selected disabled value="null">Kies een locatie</option>
+              <option selected disabled value="null">
+                Kies een locatie
+              </option>
               <option
                 v-bind:value="walk.id"
                 v-for="walk in walks"
@@ -49,11 +51,11 @@
                 {{ walk.locatie.replace(/^./, walk.locatie[0].toUpperCase()) }}
               </option>
             </select>
-            <label for="locatie">Locatie</label>
+            <label for="chosenWalk">Locatie</label>
           </div>
           <div class="boekingsgegevens_field">
-            <p class="form_error" v-if="errors.personencount">
-              {{ errors.personencount }}
+            <p class="form_error" v-if="errors.personenCount">
+              Aantal personen niet ingevuld!
             </p>
             <select
               name="personenCount"
@@ -64,9 +66,9 @@
                 'form_error--border': errors.personenCount
               }"
             >
-              <option selected disabled value="null"
-                >Kies aantal personen</option
-              >
+              <option selected disabled value="null">
+                Kies aantal personen
+              </option>
               <option
                 v-bind:value="index"
                 v-for="index in getMaxPeople"
@@ -77,6 +79,7 @@
             </select>
             <label for="personenCount">Aantal personen</label>
           </div>
+
           <div class="boekingsgegevens_field">
             <client-only>
               <date-picker
@@ -84,6 +87,9 @@
                 color="pink"
                 locale="nl"
                 v-model="formData.chosenDate"
+                @input="resetErrors"
+                id="chosenDate"
+                name="chosenDate"
                 mode="date"
                 :model-config="modelConfig"
                 :min-date="new Date()"
@@ -91,29 +97,24 @@
                 :disabled-dates="{ weekdays: [2, 3, 4, 5, 6] }"
               >
                 <template v-slot="{ inputValue, inputEvents }">
-                  <p class="form_error" v-if="errors.inputValue">
-                    {{ errors.inputValue }}
+                  <p class="form_error" v-if="errors.chosenDate">
+                    Datum niet ingevuld!
                   </p>
                   <input
-                    :value="inputValue"
+                    v-model="inputValue"
                     v-on="inputEvents"
-                    @input="resetErrors"
-                    name="date"
-                    id="date"
                     placeholder="10-10-2010"
                     v-bind:class="{
-                      'form_error--border': errors.inputValue
+                      'form_error--border': errors.chosenDate
                     }"
                   />
-                  <label for="date">Datum van de wandeling</label>
+                  <label for="chosenDate">Datum van de walk</label>
                 </template>
               </date-picker>
             </client-only>
           </div>
           <div class="boekingsgegevens_field">
-            <p class="form_error" v-if="errors.name">
-              {{ errors.name }}
-            </p>
+            <p class="form_error" v-if="errors.name">Naam niet ingevuld!</p>
             <input
               type="text"
               name="name"
@@ -129,7 +130,7 @@
           </div>
           <div class="boekingsgegevens_field">
             <p class="form_error" v-if="errors.email">
-              {{ errors.email }}
+              E-mail niet ingevuld!
             </p>
             <input
               v-model="formData.email"
@@ -146,7 +147,7 @@
           </div>
           <div class="boekingsgegevens_field">
             <p class="form_error" v-if="errors.phone">
-              {{ errors.phone }}
+              Telefoonnummer niet ingevuld!
             </p>
             <input
               type="tel"
@@ -176,7 +177,8 @@
             namelijk altijd!
           </p>
           <p class="boekingskosten_extra">
-            Betalen kan via credit card, IDEAL, Paypal, Klarna, etc.
+            De betaling vindt plaats op de volgende pagina, betalen kan met
+            iDEAL, Apple Pay en Creditcard
           </p>
         </div>
       </div>
@@ -216,14 +218,15 @@
 
 <script>
 import axios from "axios";
-// import stripeCheckoutMixin from "../mixins/stripeCheckoutMixin";
 
 export default {
-  name: "Checkout",
-  // mixins: [stripeCheckoutMixin],
+  name: "checkout",
   data() {
     return {
       loading: false,
+      docReady: false,
+
+      date: null,
 
       walks: null,
       maxDate: new Date(),
@@ -234,6 +237,7 @@ export default {
         mask: "YYYY-MM-DD"
       },
 
+      inputValue: null,
       formData: {
         chosenWalk: null,
         personenCount: null,
@@ -244,6 +248,7 @@ export default {
         phone: ""
       },
 
+      // APIerrors: "",
       errors: {
         chosenDate: "",
         chosenWalk: "",
@@ -268,58 +273,78 @@ export default {
           this.walks = response.data;
           this.maxDate = response.data[0].max_boekings_datum;
           this.maxPeople = response.data[0].max_aantal_personen;
+
+          if (this.$route.params.chosenWalk) {
+            let walk = this.$route.params.chosenWalk;
+            this.formData.chosenWalk = this.walks[walk.id - 1].id;
+          }
         });
     },
-    checkout() {
-      // if (!this.validForm()) {
-      //   return;
-      // }
+    async checkout() {
+      if (!this.validForm()) {
+        return;
+      }
 
       this.sending = true;
       this.recaptcha();
 
-      axios
+      await axios
         .post(
           process.env.LARAVEL_API_BASE_URL + "api/customer/create-session",
           {
             name: this.formData.name,
-            // name: "lars",
             phone: this.formData.phone,
-            // phone: "0615643290",
             email: this.formData.email,
-            // email: "lvdnbusiness@gmail.com",
-
             walkId: this.formData.chosenWalk,
-
             aantalPersonen: this.formData.personenCount,
-
             prijs: this.formData.price,
-
             datum: this.formData.chosenDate
           }
         )
         .then(response => {
-          this.$stripe
-            .redirectToCheckout({
-              sessionId: response.data.id
-            })
-            .then(function(result) {});
+          if (response.data.errors) {
+            console.log(response.data.errors);
+            for (const error in response.data.errors) {
+              if (error === "phone") {
+                this.errors.phone = "Dit telefoonnummer klopt niet";
+              }
+            }
+            // for (let error = 0; error < response.data.errors.length; error++) {
+            //   console.log(response.data.errors[error]);
+            // }
+            return;
+          }
+          if (!response.data.id) {
+            return this.$swal.fire({
+              icon: "error",
+              title: "Whoops",
+              text:
+                "Er gaat aan onze kant iets fout... Probeer contact op te nemen of probeer het later opnieuw."
+            });
+          }
+
+          this.$stripe.redirectToCheckout({ sessionId: response.data.id });
+
           if (response.data.errors) {
             console.log(response.data.errors);
           }
         })
         .catch(err => {
-          console.log("====================================");
           console.log(err);
-          console.log("====================================");
         });
     },
     resetErrors: function(event) {
+      if (this.isDate(event)) {
+        return (this.errors.chosenDate = null);
+      }
+
       const target = event.target.id;
-      this.errors[target] = "";
+      this.errors[target] = null;
+    },
+    isDate: function(date) {
+      return new Date(date) !== "Invalid Date" && !isNaN(new Date(date));
     },
     resetForm: function() {
-      this.inputValue = "";
       this.formData = {
         name: "",
         email: "",
@@ -331,16 +356,20 @@ export default {
     },
     validForm: function() {
       let noErrors = true;
+
       for (const input in this.formData) {
         if (!this.formData[input]) {
-          this.errors[input] = "Je hebt je " + input + " niet ingevuld!";
+          this.errors[input] =
+            input.replace(/^./, input[0].toUpperCase()) + " niet ingevuld!";
           noErrors = false;
         }
       }
+
       if (!this.validEmail(this.formData.email) && this.errors.email == "") {
         this.errors.email = "Je e-mail is niet geldig!";
         noErrors = false;
       }
+
       return noErrors;
     },
     validEmail: function(email) {
@@ -391,11 +420,10 @@ export default {
       return this.priceWhole;
     }
   },
-  mounted() {
-    this.getWalks();
-    if (this.$route.params.walk) {
-      this.chosenWalk = this.$route.params.walk.id;
-    }
+  async mounted() {
+    await this.getWalks();
+
+    this.docReady = true;
   }
 };
 </script>
@@ -497,6 +525,7 @@ export default {
   flex-flow: column-reverse;
   transition: 1s all ease;
   position: relative;
+  margin-bottom: 10px;
 }
 span {
   display: flex;
@@ -548,7 +577,7 @@ select option:not(:first-child) {
   color: red;
   position: absolute;
   right: 0;
-  bottom: -15px;
+  bottom: -12px;
 }
 .form_error--border {
   transition: none;
@@ -594,7 +623,7 @@ input:focus + label {
   height: 100%;
   margin-top: 50px;
   margin-left: 30px;
-  width: auto;
+  width: 500px;
 }
 .boekingskosten--title {
   font-weight: 600;
@@ -646,6 +675,16 @@ input:focus + label {
   text-decoration: none;
   font-weight: 500;
   font-size: 20px;
+  transition: 0.6s all ease;
+  padding: 20px 30px;
+  border: 3px solid transparent;
+  border-radius: 20px;
+}
+.checkout_buttons--return:hover {
+  border: 3px solid #ffb496;
+  padding: 20px 30px;
+  color: #ffb496;
+  box-shadow: 18px 15px 23px -13px rgba(0, 0, 0, 0.1);
 }
 .checkout_buttons--betalen {
   margin: 0;
@@ -660,8 +699,14 @@ input:focus + label {
   font-size: 20px;
   font-weight: 500;
   color: white;
-  border: none;
+  border: 3px solid #ffb496;
+  transition: 0.6s all ease;
   box-shadow: 18px 15px 23px -13px rgba(0, 0, 0, 0.1);
+}
+.checkout_buttons--betalen:hover {
+  background-color: transparent !important;
+  color: #ffb496;
+  cursor: pointer;
 }
 
 /* Animaties */
@@ -720,6 +765,14 @@ input:focus + label {
 @media screen and (max-width: 800px) {
   .checkout {
     padding: 50px 45px;
+  }
+  .checkout_buttons--betalen {
+    padding: 10px 20px;
+    font-size: 16px;
+  }
+  .checkout_buttons--return {
+    font-size: 16px;
+    padding: 5px 10px;
   }
   .boekingsgegevens_field input,
   .boekingsgegevens_field option,
