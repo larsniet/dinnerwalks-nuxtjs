@@ -1,26 +1,39 @@
-import axios from 'axios'
+import Vue from "vue";
 
-export default function ({ route, redirect, context, app }) {
+export default async function({ $axios, route, redirect }) {
 
-  if (!route.query.code) {
-    redirect(401, "/NotAuthorized");
+  const code = route.query.code;
+  const walk = route.params.walk;
+  let authenticated = true;
+
+  if (!route.query.code || !route.params.walk) {
+    authenticated = false;
   }
 
-  axios
-    .post(process.env.LARAVEL_API_BASE_URL + "api/checkUniekeCode", {
-      code: route.query.code,
-      walk: route.params.walk
-    })
-    .then(() => { })
-    .catch(() => {
-      app.swal.fire({
-        icon: "error",
-        title: "Oeps...",
-        text:
-          "Het kan zijn dat je code verlopen is. Als je denkt dat dit niet klopt, neem dan contact met ons op."
+  if (authenticated) {
+    await $axios
+      .post(process.env.LARAVEL_API_BASE_URL + "api/checkUniekeCode", {
+        code: code,
+        walk: walk
+      })
+      .then(response => {
+        if (response.data[1] === "success") {
+          authenticated = true;
+        }
+      })
+      .catch(() => {
+        authenticated = false;
       });
-      redirect('https://vuejs.org')
+  }
 
+  if (!authenticated) {
+    Vue.swal.fire({
+      icon: "error",
+      title: "Oeps...",
+      text:
+        "Het kan zijn dat je code verlopen is. Als je denkt dat dit niet klopt, neem dan contact met ons op."
     });
-
+    return redirect(401, "/");
+  }
+  
 }

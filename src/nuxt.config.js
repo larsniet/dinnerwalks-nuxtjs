@@ -68,7 +68,6 @@ module.exports = {
   build: {
     transpile: ["vue-sweetalert2", "@vue-stripe/vue-stripe"],
 
-
     extend(config, { isDev, isClient, isServer }) {
 
       config.node = {
