@@ -1,5 +1,6 @@
 <template>
-  <div v-if="docReady">
+  <div>
+    <Loader v-if="loading" />
     <div class="checkoutBolletjes">
       <img
         class="checkoutBolletjes--img1"
@@ -86,10 +87,10 @@
                 value="null"
                 color="pink"
                 locale="nl"
-                v-model="formData.chosenDate"
+                v-model="formData.datum"
                 @input="resetErrors"
-                id="chosenDate"
-                name="chosenDate"
+                id="datum"
+                name="datum"
                 mode="date"
                 :model-config="modelConfig"
                 :min-date="new Date()"
@@ -97,7 +98,7 @@
                 :disabled-dates="{ weekdays: [2, 3, 4, 5, 6] }"
               >
                 <template v-slot="{ inputValue, inputEvents }">
-                  <p class="form_error" v-if="errors.chosenDate">
+                  <p class="form_error" v-if="errors.datum">
                     Datum niet ingevuld!
                   </p>
                   <input
@@ -105,28 +106,28 @@
                     v-on="inputEvents"
                     placeholder="10-10-2010"
                     v-bind:class="{
-                      'form_error--border': errors.chosenDate
+                      'form_error--border': errors.datum
                     }"
                   />
-                  <label for="chosenDate">Datum van de walk</label>
+                  <label for="datum">Datum van de walk</label>
                 </template>
               </date-picker>
             </client-only>
           </div>
           <div class="boekingsgegevens_field">
-            <p class="form_error" v-if="errors.name">Naam niet ingevuld!</p>
+            <p class="form_error" v-if="errors.naam">Naam niet ingevuld!</p>
             <input
               type="text"
-              name="name"
-              id="name"
+              name="naam"
+              id="naam"
               @input="resetErrors"
               placeholder="Uw naam"
-              v-model="formData.name"
+              v-model="formData.naam"
               v-bind:class="{
-                'form_error--border': errors.name
+                'form_error--border': errors.naam
               }"
             />
-            <label for="name">Volledige naam</label>
+            <label for="naam">Volledige naam</label>
           </div>
           <div class="boekingsgegevens_field">
             <p class="form_error" v-if="errors.email">
@@ -146,18 +147,18 @@
             <label for="email">E-mailadres</label>
           </div>
           <div class="boekingsgegevens_field">
-            <p class="form_error" v-if="errors.phone">
-              Telefoonnummer niet ingevuld!
+            <p class="form_error" v-if="errors.telefoonnummer">
+              {{ errors.telefoonnummer }}
             </p>
             <input
               type="tel"
               name="phone"
-              id="phone"
+              id="telefoonnummer"
               placeholder="0612345678"
               @input="resetErrors"
-              v-model="formData.phone"
+              v-model="formData.telefoonnummer"
               v-bind:class="{
-                'form_error--border': errors.phone
+                'form_error--border': errors.telefoonnummer
               }"
             />
             <label for="phone">Telefoonnummer</label>
@@ -218,15 +219,16 @@
 
 <script>
 import axios from "axios";
+import Loader from "@/components/Loader";
 
 export default {
   name: "checkout",
+  components: {
+    Loader
+  },
   data() {
     return {
       loading: false,
-      docReady: false,
-
-      date: null,
 
       walks: null,
       maxDate: new Date(),
@@ -241,21 +243,20 @@ export default {
       formData: {
         chosenWalk: null,
         personenCount: null,
-        chosenDate: null,
+        datum: null,
         price: null,
-        name: "",
+        naam: "",
         email: "",
-        phone: ""
+        telefoonnummer: ""
       },
 
-      // APIerrors: "",
       errors: {
-        chosenDate: "",
+        datum: "",
         chosenWalk: "",
         personenCount: "",
-        name: "",
+        naam: "",
         email: "",
-        phone: ""
+        telefoonnummer: ""
       },
 
       priceWhole: "0",
@@ -285,36 +286,25 @@ export default {
         return;
       }
 
-      this.sending = true;
+      this.loading = true;
       this.recaptcha();
 
       await axios
         .post(
           process.env.LARAVEL_API_BASE_URL + "api/customer/create-session",
           {
-            name: this.formData.name,
-            phone: this.formData.phone,
+            naam: this.formData.naam,
+            telefoonnummer: this.formData.telefoonnummer,
             email: this.formData.email,
             walkId: this.formData.chosenWalk,
             aantalPersonen: this.formData.personenCount,
             prijs: this.formData.price,
-            datum: this.formData.chosenDate
+            datum: this.formData.datum
           }
         )
         .then(response => {
-          if (response.data.errors) {
-            console.log(response.data.errors);
-            for (const error in response.data.errors) {
-              if (error === "phone") {
-                this.errors.phone = "Dit telefoonnummer klopt niet";
-              }
-            }
-            // for (let error = 0; error < response.data.errors.length; error++) {
-            //   console.log(response.data.errors[error]);
-            // }
-            return;
-          }
           if (!response.data.id) {
+            this.loading = false;
             return this.$swal.fire({
               icon: "error",
               title: "Whoops",
@@ -324,18 +314,25 @@ export default {
           }
 
           this.$stripe.redirectToCheckout({ sessionId: response.data.id });
-
-          if (response.data.errors) {
-            console.log(response.data.errors);
-          }
+          this.loading = false;
         })
         .catch(err => {
-          console.log(err);
+          const errors = err.response.data.errors;
+          console.log(errors);
+
+          for (const input in this.formData) {
+            for (const error in errors) {
+              if (error === input) {
+                this.errors[input] = errors[input][0];
+              }
+            }
+          }
+          this.loading = false;
         });
     },
     resetErrors: function(event) {
       if (this.isDate(event)) {
-        return (this.errors.chosenDate = null);
+        return (this.errors.datum = null);
       }
 
       const target = event.target.id;
@@ -346,10 +343,10 @@ export default {
     },
     resetForm: function() {
       this.formData = {
-        name: "",
+        naam: "",
         email: "",
-        phone: "",
-        chosenDate: "",
+        telefoonnummer: "",
+        datum: "",
         chosenWalk: "",
         personenCount: ""
       };
@@ -422,8 +419,6 @@ export default {
   },
   async mounted() {
     await this.getWalks();
-
-    this.docReady = true;
   }
 };
 </script>

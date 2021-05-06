@@ -55,10 +55,6 @@ module.exports = {
     }],
   ],
 
-  router: {
-    middleware: ['token']
-  },
-
   googleAnalytics: {
     id: 'UA-151162515-2'
   },
@@ -66,15 +62,6 @@ module.exports = {
   axios: {
     proxy: true,
     credentials: true
-  },
-
-  auth: {
-    strategies: {
-      laravelSanctum: {
-        provider: 'laravel/sanctum',
-        url: 'https://admin.dinnerwalks.nl/',
-      },
-    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

@@ -161,13 +161,6 @@ export default {
   },
   created() {
     if (this.$route.query.betaald == "success") {
-      axios.post(
-        process.env.LARAVEL_API_BASE_URL + "api/customer/betaald-success",
-        {
-          boekingId: this.$route.query.boeking
-        }
-      );
-
       this.$swal.fire({
         icon: "success",
         title: "Boeking voltooid!",
@@ -181,6 +174,7 @@ export default {
         text: "Probeer het nogmaals of neem contact met ons op."
       });
     }
+    this.$router.push(this.$route.path);
   }
 };
 </script>
