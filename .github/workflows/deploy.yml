@@ -30,7 +30,7 @@ jobs:
       - name: Create .env file
         run: 'echo "$ENV_FILE" > .env'
         shell: bash
-        env:
+        env: 
           ENV_FILE: ${{secrets.DOT_ENV}}
         working-directory: ./src
 
