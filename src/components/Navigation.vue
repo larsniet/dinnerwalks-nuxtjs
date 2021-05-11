@@ -5,6 +5,7 @@
                 <h2
                     class="navbar__title"
                     :class="{ title_color: scrollPosition > 10 }"
+                    @click="goToHome()"
                 >
                     Dinnerwalks
                 </h2>
@@ -164,6 +165,9 @@ export default {
             this.toggleMobileMenu();
             this.$router.push(page);
         },
+        goToHome() {
+          this.$router.push("/");
+        }
     },
     mounted() {
         window.addEventListener("scroll", this.updateScroll);

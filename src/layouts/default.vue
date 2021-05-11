@@ -72,9 +72,6 @@ export default {
       script: [{ type: "application/ld+json", json: this.structuredData }]
     };
   },
-  async asyncData(context) {
-    // Pre-fetch and return recipe data server-side.
-  },
   components: {
     Navigation,
     Footer

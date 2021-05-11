@@ -131,9 +131,16 @@ export default {
 @media screen and (max-width: 800px) {
   .locatie_wandeling {
     margin: 40px 0;
+    padding: 20px;
   }
   .locatie--image {
-    width: 50%;
+    width: 100%;
+  }
+  .locatie--title {
+    font-size: 26px;
+  }
+  .locatie--sub {
+    font-size: 16px;
   }
 }
 </style>

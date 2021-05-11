@@ -1,9 +1,6 @@
 <template>
   <div>
-    <client-only>
-      <Loader v-if="isLoading" />
-    </client-only>
-    <section class="walk" v-if="!isLoading">
+    <section class="walk">
       <div class="banner">
         <img
           class="banner--welcome"
@@ -162,46 +159,19 @@
 </template>
 
 <script>
-import Loader from "../../components/Loader";
 import $ from "jquery";
 import axios from "axios";
 
 export default {
   name: "Walk",
-  components: {
-    Loader
-  },
   middleware: "authenticated",
   layout: "walk",
   asyncData() {
     return {
-      isLoading: true,
       walk: {
         locatie: ""
       }
     };
-  },
-  created() {
-    // if (!this.$route.query.code) {
-    //   this.$router.push("/");
-    // }
-    // axios
-    //   .post(process.env.LARAVEL_API_BASE_URL + "api/checkUniekeCode", {
-    //     code: this.$route.query.code,
-    //     walk: this.$route.params.walk
-    //   })
-    //   .then(() => {
-    //     this.isLoading = false;
-    //   })
-    //   .catch(() => {
-    //     this.$swal.fire({
-    //       icon: "error",
-    //       title: "Oeps...",
-    //       text:
-    //         "Het kan zijn dat je code verlopen is. Als je denkt dat dit niet klopt, neem dan contact met ons op."
-    //     });
-    //     this.$router.push("/");
-    //   });
   },
   mounted() {
     this.walk.locatie = this.$route.params.walk;
@@ -461,7 +431,6 @@ export default {
       });
     }
     initPlayer();
-    this.isLoading = false;
   }
 };
 </script>
