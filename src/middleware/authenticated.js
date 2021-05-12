@@ -1,6 +1,6 @@
 import Vue from "vue";
 
-export default async function({ $axios, route, redirect }) {
+export default async function ({ $axios, route, redirect }) {
 
   const code = route.query.code;
   const walk = route.params.walk;
@@ -35,5 +35,5 @@ export default async function({ $axios, route, redirect }) {
     });
     return redirect(401, "/");
   }
-  
+
 }
