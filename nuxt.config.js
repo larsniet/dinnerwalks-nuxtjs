@@ -1,6 +1,6 @@
 module.exports = {
-  srcDir: '../src',
-  buildDir: './.nuxt',
+  srcDir: './',
+  buildDir: './nuxt',
   ssr: true,
   target: 'static',
 
