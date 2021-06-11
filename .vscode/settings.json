@@ -11,5 +11,6 @@
 	"editor.renderWhitespace": "all",
 	"editor.quickSuggestionsDelay": 500,
 	"editor.autoClosingBrackets": "always",
-	"workbench.statusBar.visible": true,
+  "workbench.statusBar.visible": true,
+  "git.ignoreLimitWarning": true,
 }

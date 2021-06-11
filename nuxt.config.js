@@ -64,6 +64,10 @@ module.exports = {
     credentials: true
   },
 
+  generate: {
+    routes: ['/walks', '/contact', '/horeca']
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ["vue-sweetalert2", "@vue-stripe/vue-stripe"],
