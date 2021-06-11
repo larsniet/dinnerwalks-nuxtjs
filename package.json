@@ -1,6 +1,6 @@
 {
   "name": "dinnerwalks",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -31,10 +31,11 @@
     "eslint-loader": "^4.0.2",
     "eslint-plugin-vue": "^7.8.0",
     "jquery": "^3.6.0",
+    "nuxt": "^2.15.6",
     "nuxt-stripe-module": "^3.1.7",
     "v-calendar": "^2.3.0",
     "vue": "^2.6.12",
-    "vue-recaptcha-v3": "^1.9.0",
+    "vue-recaptcha-v3": "1.9.0",
     "vue-router": "^3.5.1",
     "vue-scrollto": "^2.20.0",
     "vue-sweetalert2": "^4.2.1",
