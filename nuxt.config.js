@@ -42,7 +42,7 @@ module.exports = {
   buildModules: [
     // '@nuxtjs/pwa',
     '@nuxtjs/google-analytics',
-    '@nuxtjs/dotenv'
+    ['@nuxtjs/dotenv', { path: './' }],
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
