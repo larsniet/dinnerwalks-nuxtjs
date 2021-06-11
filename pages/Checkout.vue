@@ -95,7 +95,6 @@
                 :model-config="modelConfig"
                 :min-date="new Date()"
                 :max-date="maxDate"
-                :disabled-dates="{ weekdays: [2, 3, 4, 5, 6] }"
               >
                 <template v-slot="{ inputValue, inputEvents }">
                   <p class="form_error" v-if="errors.datum">
