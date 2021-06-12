@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     getWalks() {
-      console.log(LARAVEL_API_BASE_URL + "api/walks");
+      console.log(process.env.LARAVEL_API_BASE_URL + "api/walks");
       axios
         .get(process.env.LARAVEL_API_BASE_URL + "api/walks")
         .then(response => {

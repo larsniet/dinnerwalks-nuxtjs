@@ -68,6 +68,11 @@ module.exports = {
     routes: ['/walks', '/contact', '/horeca']
   },
 
+  env: {
+    LARAVEL_API_BASE_URL: process.env.LARAVEL_API_BASE_URL,
+    STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY,
+  },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ["vue-sweetalert2", "@vue-stripe/vue-stripe"],
