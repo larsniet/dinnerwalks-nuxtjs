@@ -76,6 +76,7 @@
               <img src="@/assets/images/walklocal_purple.png" id="_3" />
               <img src="@/assets/images/walklocal_blue.png" id="_4" />
               <img src="@/assets/images/walklocal_yellow.png" id="_5" />
+              <img src="@/assets/images/walklocal_purple.png" id="_6" v-if="this.walk.podcast6" />
               <div id="buffer-box">Laden ...</div>
             </div>
             <div id="player-controls">
@@ -242,6 +243,13 @@ export default {
       currAlbum,
       currTrackName,
       currArtwork;
+
+    if (this.walk.podcast6) {
+      albumArtworks.push("_6");
+      trackUrl.push(`https://admin.dinnerwalks.nl/${this.walk.podcast6}`);
+      trackNames.push("Podcast - 6");
+      albums.push(this.walk.locatie);
+    }
 
     function playPause() {
       setTimeout(function() {
