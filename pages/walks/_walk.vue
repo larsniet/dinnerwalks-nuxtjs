@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="!loading">
     <section class="walk">
       <div class="banner">
         <img
@@ -43,8 +43,9 @@
         <h3 class="walk--title">in {{ walk.locatie }}</h3>
         <a
           class="downloadBtn"
-          :href="`/walks/${walk.locatie}/${walk.locatie}.pdf`"
+          :href="`https://admin.dinnerwalks.nl/storage/walks/${walk.locatie}/${walk.locatie}.pdf`"
           target="_blank"
+          download="download"
           >Download PDF</a
         >
       </div>
@@ -166,15 +167,22 @@ export default {
   name: "Walk",
   middleware: "authenticated",
   layout: "walk",
-  asyncData() {
+  data() {
     return {
-      walk: {
-        locatie: ""
-      }
+      walk: null,
+      loading: true
     };
   },
-  mounted() {
-    this.walk.locatie = this.$route.params.walk;
+  async mounted() {
+    await axios
+        .post(process.env.LARAVEL_API_BASE_URL + "api/walk", {
+          walkLocatie: this.$route.params.walk
+          })
+        .then(response => {
+          this.loading = false;
+          this.walk = response.data;
+        });
+    await this.walk;
 
     var playerTrack = $("#player-track"),
       albumName = $("#album-name"),
@@ -429,9 +437,10 @@ export default {
       playNextTrackButton.on("click", function() {
         selectTrack(1);
       });
+
     }
     initPlayer();
-  }
+    }
 };
 </script>
 
