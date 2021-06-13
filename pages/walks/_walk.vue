@@ -221,11 +221,11 @@ export default {
       ],
       albumArtworks = ["_1", "_2", "_3", "_4", "_5"],
       trackUrl = [
-        `https://admin.dinnerwalks.nl/storage/walks/${this.walk.locatie.toLowerCase()}/podcasts/Deel_1.mp3`,
-        `https://admin.dinnerwalks.nl/storage/walks/${this.walk.locatie.toLowerCase()}/podcasts/Deel_2.mp3`,
-        `https://admin.dinnerwalks.nl/storage/walks/${this.walk.locatie.toLowerCase()}/podcasts/Deel_3.mp3`,
-        `https://admin.dinnerwalks.nl/storage/walks/${this.walk.locatie.toLowerCase()}/podcasts/Deel_4.mp3`,
-        `https://admin.dinnerwalks.nl/storage/walks/${this.walk.locatie.toLowerCase()}/podcasts/Deel_5.mp3`
+        `https://admin.dinnerwalks.nl/${this.walk.podcast1}`,
+        `https://admin.dinnerwalks.nl/${this.walk.podcast2}`,
+        `https://admin.dinnerwalks.nl/${this.walk.podcast3}`,
+        `https://admin.dinnerwalks.nl/${this.walk.podcast4}`,
+        `https://admin.dinnerwalks.nl/${this.walk.podcast5}`
       ],
       playPreviousTrackButton = $("#play-previous"),
       playNextTrackButton = $("#play-next"),
