@@ -43,7 +43,7 @@
         <h3 class="walk--title">in {{ walk.locatie }}</h3>
         <a
           class="downloadBtn"
-          :href="`https://admin.dinnerwalks.nl/storage/walks/${walk.locatie}/${walk.locatie}.pdf`"
+          :href="`https://admin.dinnerwalks.nl/storage/walks/${walk.locatie.toLowerCase()}/${walk.locatie.toLowerCase()}.pdf`"
           target="_blank"
           download="download"
           >Download PDF</a
