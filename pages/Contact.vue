@@ -40,7 +40,7 @@
             samenwerkingen, vul dan het contactformulier in.
           </p>
           <p class="contactformulier_info--sub">
-            Het duurt gemiddeld 1 dag voordat u antwoord krijgt via de mail.
+            Het duurt gemiddeld 4 uur voordat u antwoord krijgt via de mail.
           </p>
           <p class="contactformulier_info--sub">
             Voor directer contact zijn wij natuurlijk ook bereikbaar via sociale

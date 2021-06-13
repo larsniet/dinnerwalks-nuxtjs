@@ -126,6 +126,8 @@ export default {
   font-size: 20px;
   font-weight: 300;
   margin-bottom: 10px;
+  text-align: left;
+  line-height: 1.4em;
 }
 
 @media screen and (max-width: 800px) {

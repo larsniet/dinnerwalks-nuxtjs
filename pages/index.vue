@@ -107,14 +107,10 @@
         </div>
         <div class="flex_container--text">
           <h2 class="content--title">
-            Culinaire wandeling om jouw lokale horeca te steunen
+            Lekkere culinaire wandelingen
           </h2>
           <p class="content--sub">
-            Elke zaterdag en zondag culinaire wandelingen door de regio om de
-            lokale horeca te steunen in deze moeilijke tijd. Voor slechts €3.50
-            wandel je al mee, ontvang je jouw unieke kortingscode en krijg je
-            ook nog eens toegang tot onze speciale podcasts. We nemen je in de
-            podcast aan de hand en leiden je door het dorp en zijn historie.
+            Elke dag van de week lekkere culinaire wandelingen door de regio! Voor maar 3,50 wandel je al mee, ontvang je jouw unieke code en toegang tot onze speciale podcast. In de podcast nemen wij je aan de hand en leiden je door de stad en zijn historie. Elke dinsdag en donderdag organiseren wij ook speciale cocktail-wandelingen!
           </p>
         </div>
       </div>
@@ -132,10 +128,7 @@
         <div class="flex_container--text">
           <h2 class="content--title">Helemaal coronaproof</h2>
           <p class="content--sub">
-            In verband met de maatregelen van het RIVM, kun je je maximaal met 2
-            personen inschrijven op tijdsloten tussen 11:30 en 16:30. Met meer
-            dan 2 personen of op een andere tijd wandelen is dus niet
-            toegestaan.
+            In verband met de maatregelen van het RIVM kun je onze wandeling met maximaal 4 personen lopen. Ben je met meer uit hetzelfde huishouden? Geen probleem. Boek meerdere wandelingen en start tegelijk!
           </p>
         </div>
         <div class="flex_container--image">
