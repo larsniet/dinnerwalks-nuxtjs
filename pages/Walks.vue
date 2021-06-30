@@ -38,11 +38,12 @@
               alt="Noordwijk foto"
             />
             <h2 class="locatie--title">
-              <span style="text-transform: capitalize">{{ walk.locatie }}</span>
+              <span style="text-transform: capitalize">{{ walk.name }}</span>
               Walk
             </h2>
+            <h4 class="locatie--naam">{{ getLocation(walk) }}</h4>
             <p class="locatie--sub">
-              {{ walk.beschrijving }}
+              {{ walk.description }}
             </p>
           </NuxtLink>
         </div>
@@ -69,7 +70,8 @@ export default {
   },
   data() {
     return {
-      walks: null
+      walks: null,
+      locations: null
     };
   },
   created() {
@@ -80,8 +82,17 @@ export default {
       axios
         .get(process.env.LARAVEL_API_BASE_URL + "api/walks")
         .then(response => {
-          this.walks = response.data;
+          this.walks = response.data.walks;
+          this.locations = response.data.locations
         });
+    },
+    getLocation(walk) {
+      for (let i = 0; i < this.locations.length; i++) {
+        if (this.locations[i].id === walk.location_id) {
+          return this.locations[i].name;
+        }
+      }
+      return "Geen locatie gevonden";
     }
   }
 };
@@ -119,7 +130,14 @@ export default {
   color: #f59dcc;
   font-weight: 700;
   font-size: 34px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+}
+.locatie--naam {
+  text-transform: capitalize;
+  color: black;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 .locatie--sub {
   color: black;
