@@ -29,31 +29,31 @@
         horecagelegenheden!
       </p>
     </div>
-    <div v-for="walk in walks" v-bind:key="walk.id" class="locatie mb-100">
+    <div v-for="location in locations" v-bind:key="location.id" class="locatie mb-100">
       <h2 class="locatie--title" style="text-transform: capitalize">
-        {{ walk.locatie }}
+        {{ location.name }}
       </h2>
       <div class="flex_container">
         <div
-          v-for="(horeca, key) in horecasFilter(walk)"
+          v-for="(catering, key) in cateringFilter(location)"
           v-bind:key="key"
           class="locatie_gelegenheid"
         >
-          <a :href="horeca.website" target="_blank">
+          <a :href="catering.website" target="_blank">
             <img
               class="locatie_gelegenheid--image"
-              :src="'https://admin.dinnerwalks.nl/' + horeca.logo"
+              :src="'https://admin.dinnerwalks.nl/' + catering.logo"
               alt="Horeca bedrijf"
             />
             <h3 class="locatie_gelegenheid--title">
-              {{ horeca.naam }}
+              {{ catering.name }}
             </h3>
           </a>
           <p class="locatie_gelegenheid--sub">
-            {{ horeca.adres }}
+            {{ catering.address }}
           </p>
           <div class="locatie_gelegeneheid--socials">
-            <a :href="horeca.instagram" target="_blank">
+            <a :href="catering.instagram" target="_blank">
               <svg
                 class="icon"
                 width="48"
@@ -81,7 +81,7 @@
               </svg>
             </a>
 
-            <a :href="horeca.facebook" target="_blank">
+            <a :href="catering.facebook" target="_blank">
               <svg
                 class="icon"
                 width="48"
@@ -123,34 +123,28 @@ export default {
   },
   data() {
     return {
-      horecas: [],
-      walks: null
+      catering: null,
+      locations: null,
     };
   },
   created() {
-    this.getWalks();
-    this.getHorecas();
+    this.getCatering();
   },
   methods: {
-    horecasFilter(walk) {
-      return this.horecas.filter(function(horeca) {
-        return horeca.walk_id === walk.id;
+    cateringFilter(location) {
+      return this.catering.filter(function(catering) {
+        return catering.location_id === location.id;
       });
     },
-    getWalks() {
+    getCatering() {
       axios
-        .get(process.env.LARAVEL_API_BASE_URL + "api/walks")
+        .get(process.env.LARAVEL_API_BASE_URL + "api/catering")
         .then(response => {
-          this.walks = response.data;
+          this.catering = response.data.catering;
+          this.locations = response.data.locations;
+          console.log(this.catering);
         });
     },
-    getHorecas() {
-      axios
-        .get(process.env.LARAVEL_API_BASE_URL + "api/horeca")
-        .then(response => {
-          this.horecas = response.data;
-        });
-    }
   }
 };
 </script>
