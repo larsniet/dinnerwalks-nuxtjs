@@ -100,19 +100,19 @@
           novalidate
         >
           <div class="form_field">
-            <p class="form_error" v-if="errors.naam">
-              {{ errors.naam }}
+            <p class="form_error" v-if="errors.name">
+              {{ errors.name }}
             </p>
             <input
               type="text"
-              v-model="contactFormData.naam"
-              id="naam"
-              name="naam"
+              v-model="contactFormData.name"
+              id="name"
+              name="name"
               placeholder="Vul uw naam in"
-              v-bind:class="{ 'form_error--border': errors.naam }"
+              v-bind:class="{ 'form_error--border': errors.name }"
               @click="resetErrors"
             />
-            <label for="naam">Volledige naam</label>
+            <label for="name">Volledige naam</label>
           </div>
           <div class="form_field">
             <p class="form_error" v-if="errors.email">
@@ -132,21 +132,21 @@
             <label for="email">E-mailadres</label>
           </div>
           <div class="form_field">
-            <p class="form_error" v-if="errors.bericht">
-              {{ errors.bericht }}
+            <p class="form_error" v-if="errors.message">
+              {{ errors.message }}
             </p>
             <textarea
               type="text"
-              v-model="contactFormData.bericht"
-              id="bericht"
-              name="bericht"
+              v-model="contactFormData.message"
+              id="message"
+              name="message"
               placeholder="Vul hier uw bericht/vraag in"
               v-bind:class="{
-                'form_error--border': errors.bericht
+                'form_error--border': errors.message
               }"
               @click="resetErrors"
             />
-            <label for="bericht">Bericht</label>
+            <label for="message">Bericht</label>
           </div>
           <button class="form_submit" type="submit" :disabled="sending">
             Versturen
@@ -163,8 +163,8 @@
               v-for="(faq, index) in leftContainer"
               :key="index"
             >
-              <h2>{{ faq["vraag"] }}</h2>
-              <p>{{ faq["antwoord"] }}</p>
+              <h2>{{ faq["question"] }}</h2>
+              <p>{{ faq["answer"] }}</p>
             </div>
           </div>
           <div class="faq_container--rechts" ref="rightCont">
@@ -173,8 +173,8 @@
               v-for="(faq, index) in rightContainer"
               :key="index"
             >
-              <h2>{{ faq["vraag"] }}</h2>
-              <p>{{ faq["antwoord"] }}</p>
+              <h2>{{ faq["question"] }}</h2>
+              <p>{{ faq["answer"] }}</p>
             </div>
           </div>
         </div>
@@ -209,15 +209,15 @@ export default {
       rightContainer: [],
 
       contactFormData: {
-        naam: null,
+        name: null,
         email: null,
-        bericht: null
+        message: null
       },
       sending: false,
       errors: {
-        naam: "",
+        name: "",
         email: "",
-        bericht: ""
+        message: ""
       }
     };
   },
@@ -239,11 +239,11 @@ export default {
 
       axios
         .post(process.env.LARAVEL_API_BASE_URL + "api/contactForm", {
-          naam: this.contactFormData.naam,
+          name: this.contactFormData.name,
           email: this.contactFormData.email,
-          bericht: this.contactFormData.bericht
+          message: this.contactFormData.message
         })
-        .then(() => {
+        .then((response) => {
           this.$swal.fire({
             icon: "success",
             title: "Woehoe!",
@@ -265,9 +265,9 @@ export default {
     },
     resetForm: function() {
       this.contactFormData = {
-        naam: "",
+        name: "",
         email: "",
-        bericht: ""
+        message: ""
       };
     },
     validForm: function() {
@@ -305,16 +305,16 @@ export default {
 
             if (leftTotalWords > rightTotalWords) {
               this.rightContainer.push({
-                vraag: el["vraag"],
-                antwoord: el["antwoord"]
+                question: el["question"],
+                answer: el["answer"]
               });
-              rightTotalWords += el["antwoord"].length + el["vraag"].length;
+              rightTotalWords += el["answer"].length + el["question"].length;
             } else {
               this.leftContainer.push({
-                vraag: el["vraag"],
-                antwoord: el["antwoord"]
+                question: el["question"],
+                answer: el["answer"]
               });
-              leftTotalWords += el["antwoord"].length + el["vraag"].length;
+              leftTotalWords += el["answer"].length + el["question"].length;
             }
           }
         });

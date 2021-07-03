@@ -29,30 +29,60 @@
         <div class="flex_container--item boekingsgegevens">
           <h3 class="boekingsgegevens--title">Boekingsgegevens</h3>
           <div class="boekingsgegevens_field">
-            <p class="form_error" v-if="errors.chosenWalk">
+            <p class="form_error" v-if="errors.location">
               Locatie niet ingevuld!
             </p>
             <select
-              name="chosenWalk"
-              id="chosenWalk"
+              name="location"
+              id="location"
               @change="resetErrors"
-              v-model="formData.chosenWalk"
+              v-model="formData.location"
+              style="text-transform: capitalize"
               v-bind:class="{
-                'form_error--border': errors.chosenWalk
+                'form_error--border': errors.location
               }"
             >
               <option selected disabled value="null">
                 Kies een locatie
               </option>
               <option
+                v-bind:value="location.id"
+                v-for="location in locations"
+                :key="location.id"
+                style="text-transform: capitalize"
+              >
+                {{ location.name }}
+              </option>
+            </select>
+            <label for="location">Locatie</label>
+          </div>
+          <div class="boekingsgegevens_field">
+            <p class="form_error" v-if="errors.chosenWalk">
+              Walk niet ingevuld!
+            </p>
+            <select
+              name="chosenWalk"
+              id="chosenWalk"
+              @change="resetErrors"
+              v-model="formData.chosenWalk"
+              style="text-transform: capitalize"
+              v-bind:class="{
+                'form_error--border': errors.chosenWalk
+              }"
+            >
+              <option selected disabled value="null">
+                Kies een walk
+              </option>
+              <option
                 v-bind:value="walk.id"
                 v-for="walk in walks"
                 :key="walk.id"
+                style="text-transform: capitalize"
               >
-                {{ walk.locatie.replace(/^./, walk.locatie[0].toUpperCase()) }}
+                {{ walk.name }}
               </option>
             </select>
-            <label for="chosenWalk">Locatie</label>
+            <label for="chosenWalk">Walk</label>
           </div>
           <div class="boekingsgegevens_field">
             <p class="form_error" v-if="errors.personenCount">
@@ -229,6 +259,7 @@ export default {
     return {
       loading: false,
 
+      locations: null,
       walks: null,
       maxDate: new Date(),
       maxPeople: 0,
@@ -240,6 +271,7 @@ export default {
 
       inputValue: null,
       formData: {
+        location: null,
         chosenWalk: null,
         personenCount: null,
         datum: null,
@@ -251,7 +283,8 @@ export default {
 
       errors: {
         datum: "",
-        chosenWalk: "",
+        location: "",
+        chosenWalk: null,
         personenCount: "",
         naam: "",
         email: "",
@@ -270,9 +303,11 @@ export default {
       axios
         .get(process.env.LARAVEL_API_BASE_URL + "api/walks")
         .then(response => {
-          this.walks = response.data;
-          this.maxDate = response.data[0].max_boekings_datum;
-          this.maxPeople = response.data[0].max_aantal_personen;
+          this.walks = response.data.walks;
+          this.locations = response.data.locations;
+
+          this.maxDate = response.data.walks[0].max_booking_date;
+          this.maxPeople = response.data.walks[0].max_people;
 
           if (this.$route.params.chosenWalk) {
             let walk = this.$route.params.chosenWalk;
@@ -382,7 +417,7 @@ export default {
       if (this.formData.chosenWalk) {
         for (let i = 0; i < this.walks.length; i++) {
           if (this.walks[i].id === this.formData.chosenWalk) {
-            maxPeople = this.walks[i].max_aantal_personen;
+            maxPeople = this.walks[i].max_people;
           }
         }
       }
@@ -394,7 +429,7 @@ export default {
           for (let i = 0; i < this.walks.length; i++) {
             if (this.walks[i].id === this.formData.chosenWalk) {
               let priceWhole = (
-                this.walks[i].prijs * this.formData.personenCount
+                this.walks[i].price * this.formData.personenCount
               ).toString();
 
               this.formData.price = priceWhole;
