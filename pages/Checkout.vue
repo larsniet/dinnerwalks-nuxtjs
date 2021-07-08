@@ -35,7 +35,7 @@
             <select
               name="location"
               id="location"
-              @change="resetErrors"
+              @change="resetErrors, changeWalks()"
               v-model="formData.location"
               style="text-transform: capitalize"
               v-bind:class="{
@@ -75,7 +75,7 @@
               </option>
               <option
                 v-bind:value="walk.id"
-                v-for="walk in walks"
+                v-for="walk in currentWalks"
                 :key="walk.id"
                 style="text-transform: capitalize"
               >
@@ -261,6 +261,8 @@ export default {
 
       locations: null,
       walks: null,
+
+      currentWalks: null,
       maxDate: new Date(),
       maxPeople: 0,
 
@@ -303,8 +305,8 @@ export default {
       axios
         .get(process.env.LARAVEL_API_BASE_URL + "api/walks")
         .then(response => {
-          this.walks = response.data.walks;
           this.locations = response.data.locations;
+          this.walks = response.data.walks;
 
           this.maxDate = response.data.walks[0].max_booking_date;
           this.maxPeople = response.data.walks[0].max_people;
@@ -312,6 +314,8 @@ export default {
           if (this.$route.params.chosenWalk) {
             let walk = this.$route.params.chosenWalk;
             this.formData.chosenWalk = this.walks[walk.id - 1].id;
+
+            this.changeWalks();
           }
         });
     },
@@ -371,6 +375,20 @@ export default {
 
       const target = event.target.id;
       this.errors[target] = null;
+    },
+    changeWalks: function () {
+      let walks = [];
+      for (let i = 0; i < this.walks.length; i++) {
+        const walk = this.walks[i];
+        for (let i = 0; i < this.locations.length; i++) {
+          const location = this.locations[i];
+          if (walk.location_id === location.id) {
+            walks.push(this.walks[walk.id - 1]);
+            this.formData.location = location.id;
+          }
+        }
+      }
+      this.currentWalks = walks;
     },
     isDate: function(date) {
       return new Date(date) !== "Invalid Date" && !isNaN(new Date(date));
