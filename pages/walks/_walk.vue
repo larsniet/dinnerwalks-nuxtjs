@@ -40,17 +40,17 @@
       </div>
 
       <div class="content">
-        <h3 class="walk--title">in {{ walk.locatie }}</h3>
+        <h3 class="walk--title">in {{ location }}</h3>
         <a
           class="downloadBtn"
-          :href="`https://admin.dinnerwalks.nl/storage/walks/${walk.locatie.toLowerCase()}/${walk.locatie.toLowerCase()}.pdf`"
+          :href="`https://admin.dinnerwalks.nl/${this.pdf}`"
           target="_blank"
           download="download"
           >Download PDF</a
         >
       </div>
 
-      <div id="app-cover">
+      <div id="app-cover" v-if="this.podcasts">
         <div id="player">
           <div id="player-track">
             <div id="album-name"></div>
@@ -67,16 +67,6 @@
           </div>
           <div id="player-content">
             <div id="album-art">
-              <img
-                src="@/assets/images/walklocal_blue.png"
-                class="active"
-                id="_1"
-              />
-              <img src="@/assets/images/walklocal_yellow.png" id="_2" />
-              <img src="@/assets/images/walklocal_purple.png" id="_3" />
-              <img src="@/assets/images/walklocal_blue.png" id="_4" />
-              <img src="@/assets/images/walklocal_yellow.png" id="_5" />
-              <img src="@/assets/images/walklocal_purple.png" id="_6" v-if="this.walk.podcast6" />
               <div id="buffer-box">Laden ...</div>
             </div>
             <div id="player-controls">
@@ -170,291 +160,297 @@ export default {
   layout: "walk",
   data() {
     return {
-      walk: null,
+      pdf: null,
+      podcasts: null,
+      location: null,
       loading: true
     };
   },
   async mounted() {
     await axios
-        .post(process.env.LARAVEL_API_BASE_URL + "api/walk", {
-          walkLocatie: this.$route.params.walk
-          })
-        .then(response => {
-          this.loading = false;
-          this.walk = response.data;
-        });
-    await this.walk;
+      .post(process.env.LARAVEL_API_BASE_URL + "api/walk", {
+        walkLocatie: this.$route.params.walk,
+        uniqueCode: this.$route.query.code
+      })
+      .then(response => {
+        this.loading = false;
+        this.podcasts = response.data.podcasts;
+        this.pdf = response.data.pdf;
+        this.location = response.data.location;
+      });
+    await this.location;
 
-    var playerTrack = $("#player-track"),
-      albumName = $("#album-name"),
-      trackName = $("#track-name"),
-      albumArt = $("#album-art"),
-      sArea = $("#s-area"),
-      seekBar = $("#seek-bar"),
-      trackTime = $("#track-time"),
-      insTime = $("#ins-time"),
-      sHover = $("#s-hover"),
-      playPauseButton = $("#play-pause-button"),
-      playIcon = $("#play-icon"),
-      pauseIcon = $("#pause-icon"),
-      tProgress = $("#current-time"),
-      tTime = $("#track-length"),
-      seekT,
-      seekLoc,
-      seekBarPos,
-      cM,
-      ctMinutes,
-      ctSeconds,
-      curMinutes,
-      curSeconds,
-      durMinutes,
-      durSeconds,
-      playProgress,
-      bTime,
-      nTime = 0,
-      buffInterval = null,
-      tFlag = false,
-      albums = [
-        this.walk.locatie,
-        this.walk.locatie,
-        this.walk.locatie,
-        this.walk.locatie,
-        this.walk.locatie
-      ],
-      trackNames = [
-        "Podcast - 1",
-        "Podcast - 2",
-        "Podcast - 3",
-        "Podcast - 4",
-        "Podcast - 5"
-      ],
-      albumArtworks = ["_1", "_2", "_3", "_4", "_5"],
-      trackUrl = [
-        `https://admin.dinnerwalks.nl/${this.walk.podcast1}`,
-        `https://admin.dinnerwalks.nl/${this.walk.podcast2}`,
-        `https://admin.dinnerwalks.nl/${this.walk.podcast3}`,
-        `https://admin.dinnerwalks.nl/${this.walk.podcast4}`,
-        `https://admin.dinnerwalks.nl/${this.walk.podcast5}`
-      ],
-      playPreviousTrackButton = $("#play-previous"),
-      playNextTrackButton = $("#play-next"),
-      currIndex = -1,
-      audio,
-      currAlbum,
-      currTrackName,
-      currArtwork;
+    if (this.podcasts) {
+      var playerTrack = $("#player-track"),
+        albumName = $("#album-name"),
+        trackName = $("#track-name"),
+        albumArt = $("#album-art"),
+        sArea = $("#s-area"),
+        seekBar = $("#seek-bar"),
+        trackTime = $("#track-time"),
+        insTime = $("#ins-time"),
+        sHover = $("#s-hover"),
+        playPauseButton = $("#play-pause-button"),
+        playIcon = $("#play-icon"),
+        pauseIcon = $("#pause-icon"),
+        tProgress = $("#current-time"),
+        tTime = $("#track-length"),
+        seekT,
+        seekLoc,
+        seekBarPos,
+        cM,
+        ctMinutes,
+        ctSeconds,
+        curMinutes,
+        curSeconds,
+        durMinutes,
+        durSeconds,
+        playProgress,
+        bTime,
+        nTime = 0,
+        buffInterval = null,
+        tFlag = false,
+        albums = [],
+        trackNames = [],
+        albumArtworks = [],
+        trackUrl = [],
+        playPreviousTrackButton = $("#play-previous"),
+        playNextTrackButton = $("#play-next"),
+        currIndex = -1,
+        audio,
+        audioImages = [
+          require("@/assets/images/walklocal_blue.png"),
+          require("@/assets/images/walklocal_purple.png"),
+          require("@/assets/images/walklocal_yellow.png")
+        ],
+        firstLoop = true,
+        y = 0,
+        currAlbum,
+        currTrackName,
+        currArtwork;
 
-    if (this.walk.podcast6) {
-      albumArtworks.push("_6");
-      trackUrl.push(`https://admin.dinnerwalks.nl/${this.walk.podcast6}`);
-      trackNames.push("Podcast - 6");
-      albums.push(this.walk.locatie);
-    }
+      for (let i = 0; i < this.podcasts.length; i++) {
+        trackUrl.push(`https://admin.dinnerwalks.nl/${this.podcasts[i].stored_location}`);
+        trackNames.push(`Podcast - ${i+1}`);
+        albumArtworks.push(`_${i+1}`);
+        albums.push(this.location);
 
-    function playPause() {
-      setTimeout(function() {
-        if (audio.paused) {
-          playerTrack.addClass("active");
-          albumArt.addClass("active");
-          checkBuffering();
-          playIcon.hide();
-          pauseIcon.show();
-          audio.play();
-        } else {
-          playerTrack.removeClass("active");
-          albumArt.removeClass("active");
-          clearInterval(buffInterval);
-          albumArt.removeClass("buffering");
-          playIcon.show();
-          pauseIcon.hide();
-          audio.pause();
-        }
-      }, 300);
-    }
+        const img = document.createElement("img");
+        img.setAttribute("id", `_${i+1}`);
+        if (y > 2) {y = 0;}
+        img.setAttribute("src", audioImages[y]);
+        if (firstLoop) {img.setAttribute("class", "active");firstLoop=false;}
 
-    function showHover(event) {
-      seekBarPos = sArea.offset();
-      seekT = event.clientX - seekBarPos.left;
-      seekLoc = audio.duration * (seekT / sArea.outerWidth());
-
-      sHover.width(seekT);
-
-      cM = seekLoc / 60;
-
-      ctMinutes = Math.floor(cM);
-      ctSeconds = Math.floor(seekLoc - ctMinutes * 60);
-
-      if (ctMinutes < 0 || ctSeconds < 0) return;
-
-      if (ctMinutes < 0 || ctSeconds < 0) return;
-
-      if (ctMinutes < 10) ctMinutes = "0" + ctMinutes;
-      if (ctSeconds < 10) ctSeconds = "0" + ctSeconds;
-
-      if (isNaN(ctMinutes) || isNaN(ctSeconds)) insTime.text("--:--");
-      else insTime.text(ctMinutes + ":" + ctSeconds);
-
-      insTime.css({ left: seekT, "margin-left": "-21px" }).fadeIn(0);
-    }
-
-    function hideHover() {
-      sHover.width(0);
-      insTime
-        .text("00:00")
-        .css({ left: "0px", "margin-left": "0px" })
-        .fadeOut(0);
-    }
-
-    function playFromClickedPos() {
-      audio.currentTime = seekLoc;
-      seekBar.width(seekT);
-      hideHover();
-    }
-
-    function updateCurrTime() {
-      nTime = new Date();
-      nTime = nTime.getTime();
-
-      if (!tFlag) {
-        tFlag = true;
-        trackTime.addClass("active");
+        document.querySelector("#album-art").insertBefore(img, document.querySelector("#album-art").firstChild);
+        y++;
       }
 
-      curMinutes = Math.floor(audio.currentTime / 60);
-      curSeconds = Math.floor(audio.currentTime - curMinutes * 60);
+      function playPause() {
+        setTimeout(function() {
+          if (audio.paused) {
+            playerTrack.addClass("active");
+            albumArt.addClass("active");
+            checkBuffering();
+            playIcon.hide();
+            pauseIcon.show();
+            audio.play();
+          } else {
+            playerTrack.removeClass("active");
+            albumArt.removeClass("active");
+            clearInterval(buffInterval);
+            albumArt.removeClass("buffering");
+            playIcon.show();
+            pauseIcon.hide();
+            audio.pause();
+          }
+        }, 300);
+      }
 
-      durMinutes = Math.floor(audio.duration / 60);
-      durSeconds = Math.floor(audio.duration - durMinutes * 60);
+      function showHover(event) {
+        seekBarPos = sArea.offset();
+        seekT = event.clientX - seekBarPos.left;
+        seekLoc = audio.duration * (seekT / sArea.outerWidth());
 
-      playProgress = (audio.currentTime / audio.duration) * 100;
+        sHover.width(seekT);
 
-      if (curMinutes < 10) curMinutes = "0" + curMinutes;
-      if (curSeconds < 10) curSeconds = "0" + curSeconds;
+        cM = seekLoc / 60;
 
-      if (durMinutes < 10) durMinutes = "0" + durMinutes;
-      if (durSeconds < 10) durSeconds = "0" + durSeconds;
+        ctMinutes = Math.floor(cM);
+        ctSeconds = Math.floor(seekLoc - ctMinutes * 60);
 
-      if (isNaN(curMinutes) || isNaN(curSeconds)) tProgress.text("00:00");
-      else tProgress.text(curMinutes + ":" + curSeconds);
+        if (ctMinutes < 0 || ctSeconds < 0) return;
 
-      if (isNaN(durMinutes) || isNaN(durSeconds)) tTime.text("00:00");
-      else tTime.text(durMinutes + ":" + durSeconds);
+        if (ctMinutes < 0 || ctSeconds < 0) return;
 
-      if (
-        isNaN(curMinutes) ||
-        isNaN(curSeconds) ||
-        isNaN(durMinutes) ||
-        isNaN(durSeconds)
-      )
-        trackTime.removeClass("active");
-      else trackTime.addClass("active");
+        if (ctMinutes < 10) ctMinutes = "0" + ctMinutes;
+        if (ctSeconds < 10) ctSeconds = "0" + ctSeconds;
 
-      seekBar.width(playProgress + "%");
+        if (isNaN(ctMinutes) || isNaN(ctSeconds)) insTime.text("--:--");
+        else insTime.text(ctMinutes + ":" + ctSeconds);
 
-      if (playProgress == 100) {
-        playIcon.show();
-        pauseIcon.hide();
-        seekBar.width(0);
-        tProgress.text("00:00");
-        albumArt.removeClass("buffering").removeClass("active");
+        insTime.css({ left: seekT, "margin-left": "-21px" }).fadeIn(0);
+      }
+
+      function hideHover() {
+        sHover.width(0);
+        insTime
+          .text("00:00")
+          .css({ left: "0px", "margin-left": "0px" })
+          .fadeOut(0);
+      }
+
+      function playFromClickedPos() {
+        audio.currentTime = seekLoc;
+        seekBar.width(seekT);
+        hideHover();
+      }
+
+      function updateCurrTime() {
+        nTime = new Date();
+        nTime = nTime.getTime();
+
+        if (!tFlag) {
+          tFlag = true;
+          trackTime.addClass("active");
+        }
+
+        curMinutes = Math.floor(audio.currentTime / 60);
+        curSeconds = Math.floor(audio.currentTime - curMinutes * 60);
+
+        durMinutes = Math.floor(audio.duration / 60);
+        durSeconds = Math.floor(audio.duration - durMinutes * 60);
+
+        playProgress = (audio.currentTime / audio.duration) * 100;
+
+        if (curMinutes < 10) curMinutes = "0" + curMinutes;
+        if (curSeconds < 10) curSeconds = "0" + curSeconds;
+
+        if (durMinutes < 10) durMinutes = "0" + durMinutes;
+        if (durSeconds < 10) durSeconds = "0" + durSeconds;
+
+        if (isNaN(curMinutes) || isNaN(curSeconds)) tProgress.text("00:00");
+        else tProgress.text(curMinutes + ":" + curSeconds);
+
+        if (isNaN(durMinutes) || isNaN(durSeconds)) tTime.text("00:00");
+        else tTime.text(durMinutes + ":" + durSeconds);
+
+        if (
+          isNaN(curMinutes) ||
+          isNaN(curSeconds) ||
+          isNaN(durMinutes) ||
+          isNaN(durSeconds)
+        )
+          trackTime.removeClass("active");
+        else trackTime.addClass("active");
+
+        seekBar.width(playProgress + "%");
+
+        if (playProgress == 100) {
+          playIcon.show();
+          pauseIcon.hide();
+          seekBar.width(0);
+          tProgress.text("00:00");
+          albumArt.removeClass("buffering").removeClass("active");
+          clearInterval(buffInterval);
+        }
+      }
+
+      function checkBuffering() {
         clearInterval(buffInterval);
+        buffInterval = setInterval(function() {
+          if (nTime == 0 || bTime - nTime > 1000) albumArt.addClass("buffering");
+          else albumArt.removeClass("buffering");
+
+          bTime = new Date();
+          bTime = bTime.getTime();
+        }, 100);
       }
-    }
 
-    function checkBuffering() {
-      clearInterval(buffInterval);
-      buffInterval = setInterval(function() {
-        if (nTime == 0 || bTime - nTime > 1000) albumArt.addClass("buffering");
-        else albumArt.removeClass("buffering");
+      function selectTrack(flag) {
+        if (flag == 0 || flag == 1) ++currIndex;
+        else --currIndex;
 
-        bTime = new Date();
-        bTime = bTime.getTime();
-      }, 100);
-    }
+        if (currIndex > -1 && currIndex < albumArtworks.length) {
+          if (flag == 0) {
+            playIcon.show();
+            pauseIcon.hide();
+          } else {
+            albumArt.removeClass("buffering");
+            playIcon.hide();
+            pauseIcon.show();
+          }
 
-    function selectTrack(flag) {
-      if (flag == 0 || flag == 1) ++currIndex;
-      else --currIndex;
+          seekBar.width(0);
+          trackTime.removeClass("active");
+          tProgress.text("00:00");
+          tTime.text("00:00");
 
-      if (currIndex > -1 && currIndex < albumArtworks.length) {
-        if (flag == 0) {
-          playIcon.show();
-          pauseIcon.hide();
+          currAlbum = albums[currIndex];
+          currTrackName = trackNames[currIndex];
+          currArtwork = albumArtworks[currIndex];
+
+          audio.src = trackUrl[currIndex];
+
+          nTime = 0;
+          bTime = new Date();
+          bTime = bTime.getTime();
+
+          if (flag != 0) {
+            audio.play();
+            playerTrack.addClass("active");
+            albumArt.addClass("active");
+
+            clearInterval(buffInterval);
+            checkBuffering();
+          }
+
+          albumName.text(currAlbum);
+          trackName.text(currTrackName);
+          albumArt.find("img.active").removeClass("active");
+          $("#" + currArtwork).addClass("active");
         } else {
-          albumArt.removeClass("buffering");
-          playIcon.hide();
-          pauseIcon.show();
+          if (flag == 0 || flag == 1) --currIndex;
+          else ++currIndex;
         }
-
-        seekBar.width(0);
-        trackTime.removeClass("active");
-        tProgress.text("00:00");
-        tTime.text("00:00");
-
-        currAlbum = albums[currIndex];
-        currTrackName = trackNames[currIndex];
-        currArtwork = albumArtworks[currIndex];
-
-        audio.src = trackUrl[currIndex];
-
-        nTime = 0;
-        bTime = new Date();
-        bTime = bTime.getTime();
-
-        if (flag != 0) {
-          audio.play();
-          playerTrack.addClass("active");
-          albumArt.addClass("active");
-
-          clearInterval(buffInterval);
-          checkBuffering();
-        }
-
-        albumName.text(currAlbum);
-        trackName.text(currTrackName);
-        albumArt.find("img.active").removeClass("active");
-        $("#" + currArtwork).addClass("active");
-      } else {
-        if (flag == 0 || flag == 1) --currIndex;
-        else ++currIndex;
       }
-    }
 
-    function initPlayer() {
-      audio = new Audio();
+      function initPlayer() {
+        audio = new Audio();
 
-      selectTrack(0);
+        selectTrack(0);
 
-      audio.loop = false;
+        audio.loop = false;
 
-      playPauseButton.on("click", playPause);
+        playPauseButton.on("click", playPause);
 
-      sArea.mousemove(function(event) {
-        showHover(event);
-      });
+        sArea.mousemove(function(event) {
+          showHover(event);
+        });
 
-      sArea.mouseout(hideHover);
+        sArea.mouseout(hideHover);
 
-      sArea.on("click", playFromClickedPos);
+        sArea.on("click", playFromClickedPos);
 
-      $(audio).on("timeupdate", updateCurrTime);
+        $(audio).on("timeupdate", updateCurrTime);
 
-      playPreviousTrackButton.on("click", function() {
-        selectTrack(-1);
-      });
-      playNextTrackButton.on("click", function() {
-        selectTrack(1);
-      });
+        playPreviousTrackButton.on("click", function() {
+          selectTrack(-1);
+        });
+        playNextTrackButton.on("click", function() {
+          selectTrack(1);
+        });
 
-    }
-    initPlayer();
+      }
+      initPlayer();
+      }
     }
 };
 </script>
 
-<style scoped>
+<style>
 /* Banner */
 .walk {
+  height: 100vh;
 }
 .banner {
   max-height: 200px;

@@ -3,7 +3,7 @@ import Vue from "vue";
 export default async function ({ $axios, route, redirect }) {
 
   const code = route.query.code;
-  const walk = route.params.walk;
+  const location = route.params.walk;
   let authenticated = true;
 
   if (!route.query.code || !route.params.walk) {
@@ -14,7 +14,7 @@ export default async function ({ $axios, route, redirect }) {
     await $axios
       .post(process.env.LARAVEL_API_BASE_URL + "api/checkUniekeCode", {
         code: code,
-        walk: walk
+        location: location
       })
       .then(response => {
         if (response.data[1] === "success") {
