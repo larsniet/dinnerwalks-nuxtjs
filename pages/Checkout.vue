@@ -35,7 +35,7 @@
             <select
               name="location"
               id="location"
-              @change="resetErrors, changeWalks()"
+              @change="resetErrors, changeWalks(false)"
               v-model="formData.location"
               style="text-transform: capitalize"
               v-bind:class="{
@@ -46,7 +46,7 @@
                 Kies een locatie
               </option>
               <option
-                v-bind:value="location.id"
+                v-bind:value="location"
                 v-for="location in locations"
                 :key="location.id"
                 style="text-transform: capitalize"
@@ -74,7 +74,7 @@
                 Kies een walk
               </option>
               <option
-                v-bind:value="walk.id"
+                v-bind:value="walk"
                 v-for="walk in currentWalks"
                 :key="walk.id"
                 style="text-transform: capitalize"
@@ -313,9 +313,16 @@ export default {
 
           if (this.$route.params.chosenWalk) {
             let walk = this.$route.params.chosenWalk;
-            this.formData.chosenWalk = this.walks[walk.id - 1].id;
+            let location;
 
-            this.changeWalks();
+            for (let i = 0; i < this.locations.length; i++) {
+              if (this.locations[i].id === walk.location_id) {
+                location = this.locations[i];
+              }
+            }
+  
+            this.changeWalks(location);
+            this.formData.chosenWalk = walk;
           }
         });
     },
@@ -376,19 +383,23 @@ export default {
       const target = event.target.id;
       this.errors[target] = null;
     },
-    changeWalks: function () {
-      let walks = [];
+    changeWalks: function (location) {
+      let currentWalks = [];
+      let locationID;
+
+      if (location) {
+        locationID = location.id;
+        this.formData.location = location;
+      } else { locationID = this.formData.location.id; }
+      this.formData.chosenWalk = 'null';
+
       for (let i = 0; i < this.walks.length; i++) {
         const walk = this.walks[i];
-        for (let i = 0; i < this.locations.length; i++) {
-          const location = this.locations[i];
-          if (walk.location_id === location.id) {
-            walks.push(this.walks[walk.id - 1]);
-            this.formData.location = location.id;
-          }
+        if (walk.location_id === locationID) {
+          currentWalks.push(walk);
         }
       }
-      this.currentWalks = walks;
+      this.currentWalks = currentWalks;
     },
     isDate: function(date) {
       return new Date(date) !== "Invalid Date" && !isNaN(new Date(date));
